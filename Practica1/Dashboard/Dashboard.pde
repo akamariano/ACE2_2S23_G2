@@ -1,5 +1,9 @@
 termometro t = new termometro();
 PFont font;
+int colorNube = 0;
+int colorCO2 = 255;
+boolean subiendo = true;
+boolean subiendo2 = true;
 
 void setup() {
   size(840, 900); // ancho X largo
@@ -23,7 +27,7 @@ void draw() {
   rect(0, 0, 840, 187);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT)
   
   //TEXTO
-  printText("Análisis Meteorológico IOT", 50, 140, 100, 255, 255, 255);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
+  printText("Análisis Meteorológico IOT", 40, 140, 100, 255, 255, 255);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
   printText("Dashboard", 22, 360, 130, 255, 255, 255);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
   
   //MOSAICOS-------------------------------------------->
@@ -47,6 +51,32 @@ void draw() {
   // CONCENTRACION DE CO2
   fill(248, 246, 243);// COLOR DEL PANEL
   rect(450, 560, 320, 290, 25);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT)
+  
+  // Nube para mosaico de CO2
+  fill(colorNube);
+  ellipse(185, 680, 130, 100);
+  ellipse(225, 640, 130, 110);
+  ellipse(265, 680, 130, 100); // ELLIPSE(POSX, POSY, RADIOX, RADIOY)
+  
+  if (subiendo) colorNube++; // SI SUBIENDO ES VERDADERO, INCREMENTAMOS EN UNO
+  else colorNube--; // SI ES FALSO, DECREMENTAMOS
+  if (colorNube == 100) subiendo = false; // SI EL COLOR ES IGUAL A 180, SUBIENDO ES FALSE
+  if (colorNube == 0) subiendo = true; // SI EL COLOR ES IGUAL A 0, SUBIENDO ES TRUE
+  
+  stroke(colorNube);
+  strokeWeight(15);
+  line(178, 722, 260, 722); // LINE(X1, Y1, X2, Y2)
+  noStroke();
+  
+  printText("CO²", 35, 195, 680, colorCO2, colorCO2, colorCO2);
+  
+  if (subiendo2) colorCO2--;
+  else colorCO2++;
+  if (colorCO2 == 150) subiendo2 = false; // SI EL COLOR ES IGUAL A 180, SUBIENDO ES FALSE
+  if (colorCO2 == 255) subiendo2 = true; // SI EL COLOR ES IGUAL A 0, SUBIENDO ES TRUE
+  
+  printText("Calidad de aire", 25, 135, 790, 0, 0, 0);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
+  
 }
 
 // FUNCIONES PARA EL LIENZO----------------------------------->
