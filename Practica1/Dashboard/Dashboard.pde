@@ -1,12 +1,16 @@
+float altura = -33;
+// TEMPERATURA------------------->
 termometro t = new termometro();
-humedad h = new humedad(100);
 PFont font;
+
+// CO2--------------------------->
 int colorNube = 0;
 int colorCO2 = 255;
 boolean subiendo = true;
 boolean subiendo2 = true;
 
-// HUMEDAD
+// HUMEDAD----------------------->
+humedad h = new humedad(50);
 float[] yPositions;
 
 void setup() {
@@ -36,9 +40,10 @@ void draw() {
   printText("Análisis Meteorológico IOT", 40, 155, 70, 255, 255, 255);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
   printText("Dashboard", 22, 360, 100, 255, 255, 255);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
 
+
   //MOSAICOS-------------------------------------------->
   noStroke();// QUITA EL BORDE COLOR NEGRO DE LOS PANELES
-  
+
   // TEMPERATURA---------------------------------------------------------------------------------------
   fill(248, 246, 243);// COLOR DEL PANEL
   rect(70, 180, 320, 290, 25);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT)
@@ -50,23 +55,65 @@ void draw() {
   printText("Temperatura °C", 25, 140, 440, 0, 0, 0);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
   // --------------------------------------------------------------------------------------------------
 
+
   // LUZ-----------------------------------------------------------------------------------------------
   fill(248, 246, 243);// COLOR DEL PANEL
-  rect(450, 180, 320, 290, 25);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT)
+  rect(450, 500, 320, 290, 25);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT)
+
+  //CIRCULOS
+  fill(250, 242, 55);
+  circuloFoco(610, 590, 90);
+  fill(153, 149, 149);
+  circuloFoco(609.8, 668.2, 24);
+  fill(248, 246, 243);
+  rectanguloFoco(592.5, 662);
+  fill(248, 246, 243);
+  rectanguloFoco(592.5, 655);
+
+  //TRAPECIO
+  float posX_trapecio = 1220;
+  float posY_trapecio = 635;
+  fill(222, 219, 219);
+  float topWidth = 35;
+  float bottomWidth = 70;
+  float x1 = (posX_trapecio - bottomWidth)/2;
+  float x2 = x1 + bottomWidth;
+  float x3 = (posX_trapecio - topWidth)/2;
+  float x4 = x3 + topWidth;
+  float y1 = posY_trapecio - altura / 2;
+  float y2 = posY_trapecio  + altura / 2;
+  // Dibuja el trapecio
+  beginShape();
+  vertex(x1, y2);
+  vertex(x2, y2);
+  vertex(x4, y1);
+  vertex(x3, y1);
+  endShape(CLOSE);
+
+  //RECTANGULOS
+  fill(187, 184, 184);
+  rectanguloFoco(592.5, 651.3);
+  rectanguloFoco(592.5, 658);
+  rectanguloFoco(592.5, 665);
+
+  printText("Iluminación", 25, 545, 740, 0, 0, 0);// TEXTO, TAMAÑO_LETRA, POSX, POY, RED, GREEN, BLUE
   // --------------------------------------------------------------------------------------------------
 
+
   // HUMEDAD-------------------------------------------------------------------------------------------
+  noStroke();
   fill(248, 246, 243);// COLOR DEL PANEL
-  rect(70, 500, 320, 290, 25);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT)
+  rect(450, 180, 320, 290, 25);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT)
   h.NubeDeHumedad(610, 325, 140);
   h.GotaDeHumedad(610, 340, 50);
   printText("Humedad", 25, 555, 440, 0, 0, 0);// TEXTO, TAMAÑO_LETRA, POSX, POY, RED, GREEN, BLUE
   noStroke();
   //----------------------------------------------------------------------------------------------------
 
+
   // CONCENTRACION DE CO2-------------------------------------------------------------------------------
   fill(248, 246, 243);// COLOR DEL PANEL
-  rect(450, 500, 320, 290, 25);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT)
+  rect(70, 500, 320, 290, 25);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT)
 
   // Nube para mosaico de CO2
   fill(colorNube);
@@ -96,11 +143,24 @@ void draw() {
 }
 
 // FUNCIONES PARA EL LIENZO----------------------------------->
-// TEXTO COLOR BLANCO
+
 void printText(String texto, int tam, int x, int y, int r, int g, int b) {
   textSize(tam);// TAMAÑO LETRA
   fill(r, g, b);// COLOR RGB DE LETRA
   font = createFont("Arial Bold", tam);
   textFont(font); // ESTABLECEMOS FUENTE EN NEGRITA
   text(texto, x, y);// TEXTO, POSX, POSY
+}
+
+void rectanguloFoco(float x, float y) {
+  float widthR = 34.8;
+  float heightR = 6.5;
+  float cornerRadius = 12;  // Modifica este valor para cambiar el radio de los bordes
+
+  // Dibuja el rectángulo con bordes redondeados
+  rect(x, y, widthR, heightR, cornerRadius);
+}
+
+void circuloFoco(float x, float y, float diameter) {
+  ellipse(x, y, diameter, diameter);
 }
