@@ -6,6 +6,7 @@ float minHeight = 10;
 float growthSpeed = 0.5;
 float currentHeight = minHeight;
 boolean growing = true;
+float tonalidad_ = 90;
 
 // TEMPERATURA------------------->
 termometro t = new termometro();
@@ -66,26 +67,31 @@ void draw() {
 
   // LUZ-----------------------------------------------------------------------------------------------
   fill(248, 246, 243);// COLOR DEL PANEL
-  rect(450, 500, 320, 290, 25);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT)
+  rect(450, 500, 320, 290, 25);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT
+  int r = int(map(tonalidad_, 0, 100, 251, 255)); // Componente rojo del color
+  int g = int(map(tonalidad_, 0, 100, 248, 205)); // Componente verde del color
+  int b = int(map(tonalidad_, 0, 100, 237, 0)); // Componente azul del color
   
   //RAYOS DE LUZ
   animacionLuz();
   float startX = 558; // Coordenada x inicial
   float startY = 540; // Coordenada y inicial
-  stroke(255, 205, 0);
+  stroke(r, g, b);
   strokeWeight(4.2);
   // Dibuja la línea inclinada
   float x1_luz = startX - lineHeight / 2;
   float y1_luz = startY - currentHeight / 2;
   float x2_luz = startX + lineHeight / 2;
   float y2_luz = startY + currentHeight / 2;
-  line(x1_luz+2, y1_luz+3, x2_luz+6, y2_luz+3);
+  line(x1_luz+5, y1_luz+3, x2_luz+6, y2_luz+3);
   line(x1_luz+51, y1_luz-9, x2_luz+42.5, y2_luz-9);
   line(x1_luz+100, y1_luz, x2_luz+86, y2_luz);
   noStroke();
-  
+
   //CIRCULOS
-  fill(250, 242, 55);
+  fill(r, g, b);
+  stroke(202, 197, 197);
+  strokeWeight(1);
   circuloFoco(610, 600, 90);
   fill(153, 149, 149);
   circuloFoco(609.8, 678.2, 24);
