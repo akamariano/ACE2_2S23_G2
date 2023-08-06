@@ -1,0 +1,2 @@
+init server:
+uvicorn main:app --reload --env-file=.env

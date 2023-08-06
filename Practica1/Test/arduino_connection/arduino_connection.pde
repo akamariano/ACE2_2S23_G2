@@ -3,7 +3,6 @@ import processing.serial.*;
 Serial arduinoPort;
 float temperature, humidity, airQuality, lightLevel;
 
-
 void setup() {
   arduinoPort = new Serial(this, "COM3", 9600);
   arduinoPort.bufferUntil('\n');
