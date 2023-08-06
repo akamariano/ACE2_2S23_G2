@@ -1,48 +1,68 @@
 #include <DHT.h>
 
-#define CO2_PIN   A0
-#define DHT_PIN   2 
+#define MQ135_PIN A0  
+#define LDR_PIN   A1  
+#define DHT_PIN   2
 #define DHT_TYPE  DHT11
 
 DHT dht(DHT_PIN, DHT_TYPE);
 
 void setup() {
-  // Serial1.begin(9600);
+  Serial.begin(9600);
   Serial1.begin(9600);
   dht.begin();
-  pinMode(CO2_PIN, INPUT);
 
-  
+  pinMode(MQ135_PIN, INPUT);
   Serial1.println(">> TESTING");
 }
 
 void loop() {
-  // ---- Obtener el valor de la humedad con el sensor ----
-  float humidity = dht.readHumidity();
-  // ---- Obtener el valor de la temperatura con el sensor ----
+  // Lectura de temperatura y humedad con DHT11
   float temperature = dht.readTemperature();
+  float humidity = dht.readHumidity();
 
-  // Comprobamos si ha habido algún error en la lectura
-  if (isnan(humidity) || isnan(temperature)) {
-    Serial1.println("Error obteniendo los datos del sensor DHT11");
-    return;
-  }
-  
-  Serial1.print("Humedad: ");
-  Serial1.print(humidity);
-  Serial1.print(" %\t");
+  // Lectura de calidad del aire con MQ135
+  int airQuality = analogRead(MQ135_PIN); // El valor leído será proporcional a la calidad del aire
+
+  // Lectura de cantidad de luz con LDR
+  int lightLevel = analogRead(LDR_PIN); // El valor leído será proporcional a la cantidad de luz
+
+  // Imprimir los datos en el Monitor Serie
+
+  // 1. TEMPERATURA
   Serial1.print("Temperatura: ");
   Serial1.print(temperature);
-  Serial1.print(" *C ");
-  Serial1.println("");
+  Serial1.println(" °C");
 
-  // CAMBIAR A DELAY DE 5 SEGUNDOS MINIMO.
-  delay(400); // <- TEST PURPOSES ONLY
+  Serial.print("S1/");
+  Serial.println(temperature);
+  delay(100);
 
-  // ---- Obtener el valor del CO2 detectado con el sensor ----
-  
-  // int co2_data = analogRead(CO2_PIN);
-  // Serial1.print("CO2 PPM: ");
-  // Serial1.println(co2_data);
-  // delay(400);
+  // 2. HUMEDAD
+  Serial1.print("Humedad: ");
+  Serial1.print(humidity);
+  Serial1.println(" %");
+
+  Serial.print("S2/");
+  Serial.println(humidity);
+  delay(100);
+
+  // 3. CO2
+  Serial1.print("Calidad del aire: ");
+  Serial1.println(airQuality);
+
+  Serial.print("S3/");
+  Serial.println(airQuality);
+  delay(100);
+
+  // 4. CANTIDAD DE LUZ
+  Serial1.print("Cantidad de luz: ");
+  Serial1.println(lightLevel);
+
+  Serial.print("S4/");
+  Serial.println(lightLevel);
+  delay(100);
+
+  // Esperar unos segundos antes de tomar nuevas lecturas
+  delay(500);
 }
