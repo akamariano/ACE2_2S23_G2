@@ -14,7 +14,7 @@ class humedad{
     // Mapear la tonalidad a diferentes tonalidades de azul en el modelo RGB
     int r = int(map(tonalidad_, 0, 100, 255, 29)); // Componente rojo del color
     int g = int(map(tonalidad_, 0, 100, 255, 72)); // Componente verde del color
-    int b = int(map(tonalidad_, 0, 100, 255, 234)); // Componente azul del color
+    int b = int(map(tonalidad_, 0, 100, 255, 234)); // Componente azul del color  
     
     int[] valores = new int[3];
     valores[0] = r;

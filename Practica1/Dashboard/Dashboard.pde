@@ -1,4 +1,13 @@
+// ILUMINACION
 float altura = -33;
+float lineHeight = 10;
+float maxHeight = 24;
+float minHeight = 10;
+float growthSpeed = 0.5;
+float currentHeight = minHeight;
+boolean growing = true;
+float tonalidad_ = 90;
+
 // TEMPERATURA------------------->
 termometro t = new termometro();
 PFont font;
@@ -58,21 +67,42 @@ void draw() {
 
   // LUZ-----------------------------------------------------------------------------------------------
   fill(248, 246, 243);// COLOR DEL PANEL
-  rect(450, 500, 320, 290, 25);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT)
+  rect(450, 500, 320, 290, 25);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT
+  int r = int(map(tonalidad_, 0, 100, 251, 255)); // Componente rojo del color
+  int g = int(map(tonalidad_, 0, 100, 248, 205)); // Componente verde del color
+  int b = int(map(tonalidad_, 0, 100, 237, 0)); // Componente azul del color
+  
+  //RAYOS DE LUZ
+  animacionLuz();
+  float startX = 558; // Coordenada x inicial
+  float startY = 540; // Coordenada y inicial
+  stroke(r, g, b);
+  strokeWeight(4.2);
+  // Dibuja la línea inclinada
+  float x1_luz = startX - lineHeight / 2;
+  float y1_luz = startY - currentHeight / 2;
+  float x2_luz = startX + lineHeight / 2;
+  float y2_luz = startY + currentHeight / 2;
+  line(x1_luz+5, y1_luz+3, x2_luz+6, y2_luz+3);
+  line(x1_luz+51, y1_luz-9, x2_luz+42.5, y2_luz-9);
+  line(x1_luz+100, y1_luz, x2_luz+86, y2_luz);
+  noStroke();
 
   //CIRCULOS
-  fill(250, 242, 55);
-  circuloFoco(610, 590, 90);
+  fill(r, g, b);
+  stroke(202, 197, 197);
+  strokeWeight(1);
+  circuloFoco(610, 600, 90);
   fill(153, 149, 149);
-  circuloFoco(609.8, 668.2, 24);
+  circuloFoco(609.8, 678.2, 24);
   fill(248, 246, 243);
-  rectanguloFoco(592.5, 662);
+  rectanguloFoco(592.5, 672);
   fill(248, 246, 243);
-  rectanguloFoco(592.5, 655);
+  rectanguloFoco(592.5, 665);
 
   //TRAPECIO
   float posX_trapecio = 1220;
-  float posY_trapecio = 635;
+  float posY_trapecio = 645;
   fill(222, 219, 219);
   float topWidth = 35;
   float bottomWidth = 70;
@@ -92,9 +122,9 @@ void draw() {
 
   //RECTANGULOS
   fill(187, 184, 184);
-  rectanguloFoco(592.5, 651.3);
-  rectanguloFoco(592.5, 658);
-  rectanguloFoco(592.5, 665);
+  rectanguloFoco(592.5, 661.3);
+  rectanguloFoco(592.5, 668);
+  rectanguloFoco(592.5, 675);
 
   printText("Iluminación", 25, 545, 740, 0, 0, 0);// TEXTO, TAMAÑO_LETRA, POSX, POY, RED, GREEN, BLUE
   // --------------------------------------------------------------------------------------------------
@@ -163,4 +193,19 @@ void rectanguloFoco(float x, float y) {
 
 void circuloFoco(float x, float y, float diameter) {
   ellipse(x, y, diameter, diameter);
+}
+
+void animacionLuz(){
+  // Actualiza la altura de la línea
+  if (growing) {
+    currentHeight += growthSpeed;
+    if (currentHeight >= maxHeight) {
+      growing = false;
+    }
+  } else {
+    currentHeight -= growthSpeed;
+    if (currentHeight <= minHeight) {
+      growing = true;
+    }
+  }
 }
