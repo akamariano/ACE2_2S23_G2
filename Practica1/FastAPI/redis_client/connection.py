@@ -2,12 +2,12 @@ from redis import Redis
 from redis.exceptions import ConnectionError
 from os import getenv
 
-
+# Insert Redis credentials here
 try:
     redis_client = Redis(
-        host='',
+        host='us1-lasting-loon-38131.upstash.io',
         port=38131,
-        password=''
+        password='1875241040494314b87e11bb6933ea3a'
     )
 
     print("Connected to Redis")
