@@ -1,3 +1,6 @@
+import grafica.*;
+
+// <-------------- VARIABLES GLOBALES ----------------->
 // ILUMINACION
 float altura = -33;
 float lineHeight = 10;
@@ -22,6 +25,11 @@ boolean subiendo2 = true;
 humedad h = new humedad(50);
 float[] yPositions;
 
+// MENU Y BOTONES
+int weightButton = 100;
+int heightButton = 30;
+// <--------------------------------------------------->
+
 void setup() {
   size(840, 810); // ancho X largo
   //TEMPERATURA
@@ -44,11 +52,25 @@ void draw() {
   //PANEL SUPERIOR
   fill(184, 67, 87);// COLOR DEL PANEL EN RGB
   rect(0, 0, 840, 155);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT)
-
+  
+  // MENU
+  fill(25, 34, 43);
+  stroke(255);
+  strokeWeight(0.2);
+  rect(0, 0, 840, 30, 5);
+    
+  // BOTON
+  if (mouseOver()){
+    fill(235, 201, 133);
+  } else {
+    fill(189, 146, 64); 
+  }
+  rect(0, 0, weightButton, heightButton, 5);
+  printText("Gráficas", 20, 10, 22, 0, 0, 0);
+   
   //TEXTO
-  printText("Análisis Meteorológico IOT", 40, 155, 70, 255, 255, 255);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
-  printText("Dashboard", 22, 360, 100, 255, 255, 255);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
-
+  printText("Análisis Meteorológico IOT", 40, 155, 90, 255, 255, 255);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
+  printText("Dashboard", 22, 360, 120, 255, 255, 255);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
 
   //MOSAICOS-------------------------------------------->
   noStroke();// QUITA EL BORDE COLOR NEGRO DE LOS PANELES
@@ -207,5 +229,23 @@ void animacionLuz(){
     if (currentHeight <= minHeight) {
       growing = true;
     }
+  }
+}
+
+// FUNCION BOOLEANA QUE VERIFICA SI EL CURSOR ESTA DENTRO DEL BOTON
+boolean mouseOver(){
+  if (mouseX > 0 && mouseX < 0 + weightButton && mouseY > 0 && mouseY < 0 + heightButton){
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// VERIFICA SI SE HA PRESIONADO EL BOTON
+void mousePressed() {
+  if (mouseOver()) {
+    String[] args = {"Ventana Graficos"};
+    Grafico sa = new Grafico();
+    PApplet.runSketch(args, sa);
   }
 }
