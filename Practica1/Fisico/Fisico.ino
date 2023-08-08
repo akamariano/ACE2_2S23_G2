@@ -38,5 +38,5 @@ void loop() {
   Serial.println(lightLevel);
 
   // Esperar unos segundos antes de tomar nuevas lecturas
-  delay(2000); // Puedes ajustar este valor según la frecuencia deseada de las lecturas
+  delay(500); // Puedes ajustar este valor según la frecuencia deseada de las lecturas
 }

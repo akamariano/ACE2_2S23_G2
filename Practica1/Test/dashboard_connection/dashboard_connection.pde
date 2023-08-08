@@ -15,7 +15,7 @@ void setup() {
   size(400, 300);
   background(255);
   // Abre el puerto COM3 a una velocidad de 9600 baudios
-  serial = new Serial(this, "COM2", 9600);
+  serial = new Serial(this, "COM4", 9600);
   serial.bufferUntil('\n'); // Espera hasta que se reciba un salto de línea
 }
 
