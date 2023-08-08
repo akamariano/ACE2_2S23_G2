@@ -1,6 +1,6 @@
 // Serialización
 import processing.serial.*;
-
+//HOLA JEJE
 // <-------------- VARIABLES GLOBALES ----------------->
 Serial serial;  // Objeto Serial para comunicarse con Arduino
 
