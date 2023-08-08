@@ -61,30 +61,6 @@ void setup() {
 // blanco    -> DDD6CC  ->  RGB(221, 214, 204)
 
 void draw() {
-  if ( serial.available() > 0) {  // If data is available,
-  data = serial.readStringUntil('\n'); 
-  try {
-   // Divide el string en palabras
-    String[] words = split(data, ' ');
-    if (words.length == 2) {
-      if (words[0].equals("Temperatura")) {
-        temperatura = float(words[1]); // Convierte el valor a float y guárdalo
-        println("Temperatura: " + temperatura);
-      } else if (words[0].equals("Aire")) {
-        aire = float(words[1]); // Convierte el valor a float y guárdalo
-        println("Aire: " + aire);
-      } else if (words[0].equals("Luz")) {
-        luz = float(words[1]); // Convierte el valor a float y guárdalo
-        println("Luz: " + luz);
-      } else if (words[0].equals("Humedad")) {
-        humedad = float(words[1]); // Convierte el valor a float y guárdalo
-        println("Humedad: " + humedad);
-      }
-    }
-  }
-  catch(Exception e) {
-  ;
-  }
   // REINICIO DE PINTADO
   background(221, 214, 204);
 
@@ -231,7 +207,7 @@ void draw() {
   printText("Calidad de aire "+aire, 25, 135, 745, 0, 0, 0);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
   //----------------------------------------------------------------------------------------------------
 }
-}
+
 // FUNCIONES PARA EL LIENZO----------------------------------->
 
 void printText(String texto, int tam, int x, int y, int r, int g, int b) {
@@ -285,5 +261,31 @@ void mousePressed() {
     String[] args = {"Ventana Graficos"};
     Grafico sa = new Grafico();
     PApplet.runSketch(args, sa);
+  }
+}
+
+// Obtener los datos del Arduino
+void serialEvent(Serial port) {
+  data = port.readStringUntil('\n'); // Lee el string recibido hasta el salto de línea
+  if (data != null) {
+    println("Recibido: " + data);
+
+    // Divide el string en palabras
+    String[] words = split(data, ' ');
+    if (words.length == 2) {
+      if (words[0].equals("Temperatura")) {
+        temperatura = float(words[1]); // Convierte el valor a float y guárdalo
+        println("Temperatura: " + temperatura);
+      } else if (words[0].equals("Aire")) {
+        aire = float(words[1]); // Convierte el valor a float y guárdalo
+        println("Aire: " + aire);
+      } else if (words[0].equals("Luz")) {
+        luz = float(words[1]); // Convierte el valor a float y guárdalo
+        println("Luz: " + luz);
+      } else if (words[0].equals("Humedad")) {
+        humedad = float(words[1]); // Convierte el valor a float y guárdalo
+        println("Humedad: " + humedad);
+      }
+    }
   }
 }
