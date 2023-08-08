@@ -39,6 +39,10 @@ float[] yPositions;
 // MENU Y BOTONES
 int weightButton = 100;
 int heightButton = 30;
+
+// FLAG
+boolean saveOnDatabase = false;
+
 // <--------------------------------------------------->
 
 void setup() {
@@ -47,7 +51,7 @@ void setup() {
   t.setSize(1.5);
   //HUMEDAD
   yPositions = new float[width];
-  
+
   // Abre el puerto COM3 a una velocidad de 9600 baudios
   serial = new Serial(this, "COM2", 9600);
   serial.bufferUntil('\n'); // Espera hasta que se reciba un salto de línea
@@ -67,22 +71,22 @@ void draw() {
   //PANEL SUPERIOR
   fill(184, 67, 87);// COLOR DEL PANEL EN RGB
   rect(0, 0, 840, 155);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT)
-  
+
   // MENU
   fill(25, 34, 43);
   stroke(255);
   strokeWeight(0.2);
   rect(0, 0, 840, 30, 5);
-    
+
   // BOTON
-  if (mouseOver()){
+  if (mouseOver()) {
     fill(235, 201, 133);
   } else {
-    fill(189, 146, 64); 
+    fill(189, 146, 64);
   }
   rect(0, 0, weightButton, heightButton, 5);
   printText("Gráficas", 20, 10, 22, 0, 0, 0);
-   
+
   //TEXTO
   printText("Análisis Meteorológico IOT", 40, 155, 90, 255, 255, 255);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
   printText("Dashboard", 22, 360, 120, 255, 255, 255);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
@@ -108,7 +112,7 @@ void draw() {
   int r = int(map(tonalidad_, 0, 100, 251, 255)); // Componente rojo del color
   int g = int(map(tonalidad_, 0, 100, 248, 205)); // Componente verde del color
   int b = int(map(tonalidad_, 0, 100, 237, 0)); // Componente azul del color
-  
+
   //RAYOS DE LUZ
   animacionLuz();
   float startX = 558; // Coordenada x inicial
@@ -231,7 +235,7 @@ void circuloFoco(float x, float y, float diameter) {
   ellipse(x, y, diameter, diameter);
 }
 
-void animacionLuz(){
+void animacionLuz() {
   // Actualiza la altura de la línea
   if (growing) {
     currentHeight += growthSpeed;
@@ -247,8 +251,8 @@ void animacionLuz(){
 }
 
 // FUNCION BOOLEANA QUE VERIFICA SI EL CURSOR ESTA DENTRO DEL BOTON
-boolean mouseOver(){
-  if (mouseX > 0 && mouseX < 0 + weightButton && mouseY > 0 && mouseY < 0 + heightButton){
+boolean mouseOver() {
+  if (mouseX > 0 && mouseX < 0 + weightButton && mouseY > 0 && mouseY < 0 + heightButton) {
     return true;
   } else {
     return false;
@@ -276,15 +280,22 @@ void serialEvent(Serial port) {
       if (words[0].equals("Temperatura")) {
         temperatura = float(words[1]); // Convierte el valor a float y guárdalo
         println("Temperatura: " + temperatura);
+      } else if (words[0].equals("Humedad")) {
+        humedad = float(words[1]); // Convierte el valor a float y guárdalo
+        println("Humedad: " + humedad);
       } else if (words[0].equals("Aire")) {
         aire = float(words[1]); // Convierte el valor a float y guárdalo
         println("Aire: " + aire);
       } else if (words[0].equals("Luz")) {
         luz = float(words[1]); // Convierte el valor a float y guárdalo
         println("Luz: " + luz);
-      } else if (words[0].equals("Humedad")) {
-        humedad = float(words[1]); // Convierte el valor a float y guárdalo
-        println("Humedad: " + humedad);
+        saveOnDatabase = true;
+      }
+
+      // API
+      if (saveOnDatabase) {
+        //saveSensorLevels(temperatura, humedad, aire, luz);
+        saveOnDatabase = false;
       }
     }
   }

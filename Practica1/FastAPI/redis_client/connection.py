@@ -5,9 +5,9 @@ from os import getenv
 # Insert Redis credentials here
 try:
     redis_client = Redis(
-        host='',
-        port=0,
-        password=''
+        host='us1-lasting-loon-38131.upstash.io',
+        port=38131,
+        password='1875241040494314b87e11bb6933ea3a'
     )
 
     print("Connected to Redis")

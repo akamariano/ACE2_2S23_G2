@@ -29,19 +29,23 @@ void loop() {
   Serial.print("Temperatura ");
   Serial.println(temperature);
   Serial1.println(temperature);
+  delay(100);
 
   Serial.print("Humedad ");
   Serial.println(humidity);
   Serial1.println(humidity);
+  delay(100);
 
   Serial.print("Aire ");
   Serial.println(airQuality);
   Serial1.println(airQuality);
+  delay(100);
 
   Serial.print("Luz ");
   Serial.println(lightLevel);
   Serial1.println(lightLevel);
+  delay(100);
 
   // Esperar unos segundos antes de tomar nuevas lecturas
-  delay(500); // Puedes ajustar este valor según la frecuencia deseada de las lecturas
+  delay(800); // Puedes ajustar este valor según la frecuencia deseada de las lecturas
 }
