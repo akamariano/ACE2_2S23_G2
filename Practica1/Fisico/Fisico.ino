@@ -6,7 +6,7 @@
 DHT dht(DHTPIN, DHTTYPE);
     
 #define MQ135PIN A0 // Pin de conexión del sensor MQ135 al Arduino (cambia esto según tu configuración)
-#define LDRPIN A2  // Pin de conexión del LDR al Arduino (cambia esto según tu configuración)
+#define LDRPIN A1  // Pin de conexión del LDR al Arduino (cambia esto según tu configuración)
 
 void setup() {
   Serial.begin(9600);
@@ -25,18 +25,16 @@ void loop() {
   int lightLevel = analogRead(LDRPIN); // El valor leído será proporcional a la cantidad de luz
 
   // Imprimir los datos en el Monitor Serie
-  Serial.print("Temperatura: ");
+  Serial.print("Temperatura ");
   Serial.print(temperature);
-  Serial.println(" °C");
 
-  Serial.print("Humedad: ");
+  Serial.print("Humedad ");
   Serial.print(humidity);
-  Serial.println(" %");
 
-  Serial.print("Calidad del aire: ");
+  Serial.print("Aire ");
   Serial.println(airQuality);
 
-  Serial.print("Cantidad de luz: ");
+  Serial.print("Luz ");
   Serial.println(lightLevel);
 
   // Esperar unos segundos antes de tomar nuevas lecturas
