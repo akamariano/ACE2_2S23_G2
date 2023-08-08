@@ -10,6 +10,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
   Serial.begin(9600);
+  Serial1.begin(9600);
   dht.begin();
 }
 
@@ -26,16 +27,20 @@ void loop() {
 
   // Imprimir los datos en el Monitor Serie
   Serial.print("Temperatura ");
-  Serial.print(temperature);
+  Serial.println(temperature);
+  Serial1.println(temperature);
 
   Serial.print("Humedad ");
-  Serial.print(humidity);
+  Serial.println(humidity);
+  Serial1.println(humidity);
 
   Serial.print("Aire ");
   Serial.println(airQuality);
+  Serial1.println(airQuality);
 
   Serial.print("Luz ");
   Serial.println(lightLevel);
+  Serial1.println(lightLevel);
 
   // Esperar unos segundos antes de tomar nuevas lecturas
   delay(500); // Puedes ajustar este valor según la frecuencia deseada de las lecturas
