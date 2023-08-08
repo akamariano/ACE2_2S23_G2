@@ -98,7 +98,7 @@ void draw() {
   t.show();
   t.setPosicion(230, 365);
   t.setValor(map(mouseY, 0, height, 0, 100));
-  printText("Temperatura "+temperatura+"°C", 25, 140, 440, 0, 0, 0);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
+  printText("Temperatura "+temperatura+"°C", 25, 114, 440, 0, 0, 0);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
   // --------------------------------------------------------------------------------------------------
 
 
@@ -163,7 +163,7 @@ void draw() {
   rectanguloFoco(592.5, 668);
   rectanguloFoco(592.5, 675);
 
-  printText("Iluminación "+luz, 25, 545, 740, 0, 0, 0);// TEXTO, TAMAÑO_LETRA, POSX, POY, RED, GREEN, BLUE
+  printText("Iluminación "+luz + " Lm", 25, 485, 740, 0, 0, 0);// TEXTO, TAMAÑO_LETRA, POSX, POY, RED, GREEN, BLUE
   // --------------------------------------------------------------------------------------------------
 
   // HUMEDAD-------------------------------------------------------------------------------------------
@@ -172,7 +172,7 @@ void draw() {
   rect(450, 180, 320, 290, 25);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT)
   h.NubeDeHumedad(610, 325, 140);
   h.GotaDeHumedad(610, 340, 50);
-  printText("Humedad "+humedad, 25, 555, 440, 0, 0, 0);// TEXTO, TAMAÑO_LETRA, POSX, POY, RED, GREEN, BLUE
+  printText("Humedad "+humedad + "%", 25, 515, 440, 0, 0, 0);// TEXTO, TAMAÑO_LETRA, POSX, POY, RED, GREEN, BLUE
   noStroke();
   //----------------------------------------------------------------------------------------------------
 
@@ -204,7 +204,7 @@ void draw() {
   if (colorCO2 == 150) subiendo2 = false; // SI EL COLOR ES IGUAL A 180, SUBIENDO ES FALSE
   if (colorCO2 == 255) subiendo2 = true; // SI EL COLOR ES IGUAL A 0, SUBIENDO ES TRUE
 
-  printText("Calidad de aire "+aire, 25, 135, 745, 0, 0, 0);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
+  printText("Aire "+aire + " ppm", 25, 135, 745, 0, 0, 0);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
   //----------------------------------------------------------------------------------------------------
 }
 
