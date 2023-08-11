@@ -7,7 +7,8 @@ try:
     redis_client = Redis(
         host='us1-lasting-loon-38131.upstash.io',
         port=38131,
-        password='1875241040494314b87e11bb6933ea3a'
+        password='f64f01dbf4584352a59673822e3d5eb3'
+    
     )
 
     print("Connected to Redis")

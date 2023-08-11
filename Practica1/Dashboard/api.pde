@@ -9,6 +9,7 @@ import http.requests.*;
 */
 void saveSensorLevels(float t, float h, float a, float l) {
   // Crear un JSONArray con tus datos
+  print("Enviando datos Redis");
   JSONArray data = new JSONArray();
 
   // TEMPERATURE
@@ -40,7 +41,7 @@ void saveSensorLevels(float t, float h, float a, float l) {
   PostRequest post = new PostRequest(url);
   post.addHeader("Content-Type", "application/json");
 
-  println(data.toString());
+  //println(data.toString());
 
   post.addData(data.toString());
   post.send();

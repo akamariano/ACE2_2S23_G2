@@ -55,6 +55,7 @@ boolean saveOnDatabase = false;
 // <--------------------------------------------------->
 
 void setup() {
+  
   size(840, 810); // ancho X largo
   //TEMPERATURA
   t.setSize(1.5);
@@ -62,7 +63,7 @@ void setup() {
   yPositions = new float[width];
 
   // Abre el puerto COM3 a una velocidad de 9600 baudios
-  serial = new Serial(this, "COM2", 9600);
+  serial = new Serial(this, "/dev/ttyACM0", 9600);
   serial.bufferUntil('\n'); // Espera hasta que se reciba un salto de línea
 }
 
@@ -356,7 +357,7 @@ void serialEvent(Serial port) {
 
       // API
       if (saveOnDatabase) {
-        //saveSensorLevels(temperatura, humedad, aire, luz);
+        saveSensorLevels(temperatura, humedad, aire, luz);
         saveOnDatabase = false;
       }
     }
