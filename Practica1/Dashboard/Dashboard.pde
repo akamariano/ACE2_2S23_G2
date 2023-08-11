@@ -357,7 +357,7 @@ void serialEvent(Serial port) {
 
       // API
       if (saveOnDatabase) {
-        saveSensorLevels(temperatura, humedad, aire, luz);
+        //saveSensorLevels(temperatura, humedad, aire, luz);//Para probar con tiempo real solo comentar esto
         saveOnDatabase = false;
       }
     }
