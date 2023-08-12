@@ -64,6 +64,7 @@ void setup() {
 
   // Abre el puerto COM3 a una velocidad de 9600 baudios
   serial = new Serial(this, "/dev/ttyACM0", 9600);
+  //serial = new Serial(this, "COM2", 9600);
   serial.bufferUntil('\n'); // Espera hasta que se reciba un salto de línea
 }
 
@@ -147,7 +148,7 @@ void draw() {
   // Termometro para mosaico de temperatura
   t.show();
   t.setPosicion(230, 365);
-  t.setValor(map(mouseY, 0, height, 0, 100));
+  t.setValor(map(var1, 0, height/21, 0, 100));
   printText("Temperatura "+temperatura+"°C", 25, 114, 440, 0, 0, 0);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
   // --------------------------------------------------------------------------------------------------
 
