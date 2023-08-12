@@ -8,7 +8,7 @@
 ### Enlaces
 
 <ul>
-    <li><a href="https://github.com/usac-KeviinGarcia/-COMPI1-Proyecto2_B_202113553/blob/f7b5cd797a855949051faf2d6473546fc2ac5a5a/doc/MANUAL%20T%C3%89CNICO.md">Documentación</a></li>
+    <li><a href="https://github.com/akamariano/ACE2_2S23_G2/blob/main/Practica1/docs/%5BACE2%5DPractica1_G2.pdf">Documentación</a></li>
 </ul>
 
 <ul>
