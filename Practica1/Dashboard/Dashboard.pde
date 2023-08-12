@@ -20,7 +20,6 @@ float minHeight = 10;
 float growthSpeed = 0.5;
 float currentHeight = minHeight;
 boolean growing = true;
-float tonalidad_ = 90;
 
 // TEMPERATURA------------------->
 termometro t = new termometro();
@@ -32,8 +31,6 @@ int colorCO2 = 255;
 boolean subiendo = true;
 boolean subiendo2 = true;
 
-// HUMEDAD----------------------->
-humedad h = new humedad(50);
 float[] yPositions;
 
 // MENU Y BOTONES
@@ -64,7 +61,6 @@ void setup() {
 
   // Abre el puerto COM3 a una velocidad de 9600 baudios
   serial = new Serial(this, "/dev/ttyACM0", 9600);
-  //serial = new Serial(this, "COM2", 9600);
   serial.bufferUntil('\n'); // Espera hasta que se reciba un salto de línea
 }
 
@@ -76,6 +72,10 @@ void setup() {
 // blanco    -> DDD6CC  ->  RGB(221, 214, 204)
 
 void draw() {
+  
+  // HUMEDAD----------------------->
+  humedad h = new humedad(humedad);
+  
   // REINICIO DE PINTADO
   background(221, 214, 204);
 
@@ -148,17 +148,18 @@ void draw() {
   // Termometro para mosaico de temperatura
   t.show();
   t.setPosicion(230, 365);
-  t.setValor(map(var1, 0, height/21, 0, 100));
+  t.setValor(map(temperatura, 0, height/21, 0, 100));
   printText("Temperatura "+temperatura+"°C", 25, 114, 440, 0, 0, 0);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
   // --------------------------------------------------------------------------------------------------
 
+  float tonalidad_ = luz;
 
   // LUZ-----------------------------------------------------------------------------------------------
   fill(248, 246, 243);// COLOR DEL PANEL
   rect(450, 500, 320, 290, 25);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT
-  int r = int(map(tonalidad_, 0, 100, 251, 255)); // Componente rojo del color
-  int g = int(map(tonalidad_, 0, 100, 248, 205)); // Componente verde del color
-  int b = int(map(tonalidad_, 0, 100, 237, 0)); // Componente azul del color
+  int r = int(map(tonalidad_, 0, 500, 251, 255)); // Componente rojo del color
+  int g = int(map(tonalidad_, 0, 500, 248, 205)); // Componente verde del color
+  int b = int(map(tonalidad_, 0, 500, 237, 0)); // Componente azul del color
 
   //RAYOS DE LUZ
   animacionLuz();
@@ -227,21 +228,21 @@ void draw() {
   noStroke();
   //----------------------------------------------------------------------------------------------------
 
-
   // CONCENTRACION DE CO2-------------------------------------------------------------------------------
   fill(248, 246, 243);// COLOR DEL PANEL
   rect(70, 500, 320, 290, 25);// POSICION DEL PANEL (X, Y, WIDTH, HEIGHT)
 
   // Nube para mosaico de CO2
+  if (aire > 401) colorNube = 10;
+  if (aire > 301 && aire < 400) colorNube = 80;
+  if (aire > 201 && aire < 300) colorNube = 100;
+  if (aire > 101 && aire < 200) colorNube = 125;
+  if (aire > 0 && aire < 100) colorNube = 175;
+  
   fill(colorNube);
   ellipse(185, 640, 130, 100);
   ellipse(225, 600, 130, 110);
   ellipse(265, 640, 130, 100); // ELLIPSE(POSX, POSY, RADIOX, RADIOY)
-
-  if (subiendo) colorNube++; // SI SUBIENDO ES VERDADERO, INCREMENTAMOS EN UNO
-  else colorNube--; // SI ES FALSO, DECREMENTAMOS
-  if (colorNube == 100) subiendo = false; // SI EL COLOR ES IGUAL A 180, SUBIENDO ES FALSE
-  if (colorNube == 0) subiendo = true; // SI EL COLOR ES IGUAL A 0, SUBIENDO ES TRUE
 
   stroke(colorNube);
   strokeWeight(15);
@@ -249,12 +250,6 @@ void draw() {
   noStroke();
 
   printText("CO²", 35, 195, 640, colorCO2, colorCO2, colorCO2);
-
-  if (subiendo2) colorCO2--;
-  else colorCO2++;
-  if (colorCO2 == 150) subiendo2 = false; // SI EL COLOR ES IGUAL A 180, SUBIENDO ES FALSE
-  if (colorCO2 == 255) subiendo2 = true; // SI EL COLOR ES IGUAL A 0, SUBIENDO ES TRUE
-
   printText("Aire "+aire + " ppm", 25, 135, 745, 0, 0, 0);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
   //----------------------------------------------------------------------------------------------------
 }
