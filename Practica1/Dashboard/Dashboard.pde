@@ -1,6 +1,6 @@
 // Serialización
 import processing.serial.*;
-
+//HOLA JEJE
 // <-------------- VARIABLES GLOBALES ----------------->
 Serial serial;  // Objeto Serial para comunicarse con Arduino
 
@@ -37,7 +37,16 @@ humedad h = new humedad(50);
 float[] yPositions;
 
 // MENU Y BOTONES
-int weightButton = 100;
+int weightButton1 = 140;
+int weightButton2 = 100;
+int weightButton3 = 60;
+int weightButton4 = 140;
+
+int x1 = 0;
+int x2 = 141;
+int x3 = 241;
+int x4 = 301;
+
 int heightButton = 30;
 
 // FLAG
@@ -46,6 +55,7 @@ boolean saveOnDatabase = false;
 // <--------------------------------------------------->
 
 void setup() {
+  
   size(840, 810); // ancho X largo
   //TEMPERATURA
   t.setSize(1.5);
@@ -53,7 +63,7 @@ void setup() {
   yPositions = new float[width];
 
   // Abre el puerto COM3 a una velocidad de 9600 baudios
-  serial = new Serial(this, "COM2", 9600);
+  serial = new Serial(this, "/dev/ttyACM0", 9600);
   serial.bufferUntil('\n'); // Espera hasta que se reciba un salto de línea
 }
 
@@ -75,17 +85,53 @@ void draw() {
   // MENU
   fill(25, 34, 43);
   stroke(255);
-  strokeWeight(0.2);
+  strokeWeight(0.5);
   rect(0, 0, 840, 30, 5);
-
-  // BOTON
-  if (mouseOver()) {
+  
+  // BOTON TEMPERATURA
+  pushStyle();
+  if (mouseOver() == 1) {
     fill(235, 201, 133);
   } else {
     fill(189, 146, 64);
   }
-  rect(0, 0, weightButton, heightButton, 5);
-  printText("Gráficas", 20, 10, 22, 0, 0, 0);
+  rect(0, 0, weightButton1, heightButton, 5);
+  printText("Temperatura", 20, 10, 22, 0, 0, 0); // GRAFICA TEMPERATURA
+  popStyle();
+  
+  // BOTON HUMEDAD
+  pushStyle();
+  if (mouseOver() == 2) {
+    fill(235, 201, 133);
+  } else {
+    fill(189, 146, 64);
+  }
+  rect(x2, 0, weightButton2, heightButton, 5);
+  printText("Humedad", 20, 145, 22, 0, 0, 0); // GRAFICA HUMEDAD
+  popStyle();
+  
+  // BOTON AIRE
+  pushStyle();
+  if (mouseOver() == 3) {
+    fill(235, 201, 133);
+  } else {
+    fill(189, 146, 64);
+  }
+  rect(x3, 0, weightButton3, heightButton, 5);
+  printText("Aire", 20, 250, 22, 0, 0, 0); // GRAFICA AIRE
+  popStyle();
+  
+  
+  // BOTON AIRE
+  pushStyle();
+  if (mouseOver() == 4) {
+    fill(235, 201, 133);
+  } else {
+    fill(189, 146, 64);
+  }
+  rect(x4, 0, weightButton4, heightButton, 5);
+  printText("Iluminación", 20, 318, 22, 0, 0, 0); // GRAFICA ILUMINACION
+  popStyle();
 
   //TEXTO
   printText("Análisis Meteorológico IOT", 40, 155, 90, 255, 255, 255);// TEXTO, TAMAÑO LETRA, POSX, POY, RED, GREEN, BLUE
@@ -251,19 +297,36 @@ void animacionLuz() {
 }
 
 // FUNCION BOOLEANA QUE VERIFICA SI EL CURSOR ESTA DENTRO DEL BOTON
-boolean mouseOver() {
-  if (mouseX > 0 && mouseX < 0 + weightButton && mouseY > 0 && mouseY < 0 + heightButton) {
-    return true;
-  } else {
-    return false;
+int mouseOver() {
+  if (mouseX > x1 && mouseX < x1 + weightButton1 && mouseY > 0 && mouseY < 0 + heightButton) {
+    return 1;
+  } else if (mouseX > x2 && mouseX < x2 + weightButton2 && mouseY > 0 && mouseY < 0 + heightButton) {
+    return 2;
+  } else if (mouseX > x3 && mouseX < x3 + weightButton3 && mouseY > 0 && mouseY < 0 + heightButton) {
+    return 3;
+  } else if (mouseX > x4 && mouseX < x4 + weightButton4 && mouseY > 0 && mouseY < 0 + heightButton) {
+    return 4;
   }
+    return 8;
 }
 
 // VERIFICA SI SE HA PRESIONADO EL BOTON
 void mousePressed() {
-  if (mouseOver()) {
+  if (mouseOver() == 1) {
     String[] args = {"Ventana Graficos"};
-    Grafico sa = new Grafico();
+    GraficoT sa = new GraficoT();
+    PApplet.runSketch(args, sa);
+  } else if (mouseOver() == 2) {
+    String[] args = {"Ventana Graficos"};
+    GraficoH sa = new GraficoH();
+    PApplet.runSketch(args, sa);
+  } else if (mouseOver() == 3) {
+    String[] args = {"Ventana Graficos"};
+    GraficoA sa = new GraficoA();
+    PApplet.runSketch(args, sa);
+  } else if (mouseOver() == 4) {
+    String[] args = {"Ventana Graficos"};
+    GraficoI sa = new GraficoI();
     PApplet.runSketch(args, sa);
   }
 }
@@ -294,7 +357,7 @@ void serialEvent(Serial port) {
 
       // API
       if (saveOnDatabase) {
-        //saveSensorLevels(temperatura, humedad, aire, luz);
+        //saveSensorLevels(temperatura, humedad, aire, luz);//Para probar con tiempo real solo comentar esto
         saveOnDatabase = false;
       }
     }

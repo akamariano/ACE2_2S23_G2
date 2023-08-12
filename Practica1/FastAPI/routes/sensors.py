@@ -24,6 +24,7 @@ def create(sensors: List[Sensor]):
         return sensors
 
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}
 
 

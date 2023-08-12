@@ -1,8 +1,15 @@
 import http.requests.*;
 
-
+/* Parametros: t: valor de la temperatura
+               h: valor de la humedad
+               a: valor del co2 (calidad de aire)
+               l: valor de la luz
+   Descripción: Envía una petición POST a la API y guarda en la base de datos 
+                los valores de los sensores
+*/
 void saveSensorLevels(float t, float h, float a, float l) {
   // Crear un JSONArray con tus datos
+  print("Enviando datos Redis");
   JSONArray data = new JSONArray();
 
   // TEMPERATURE
@@ -34,7 +41,7 @@ void saveSensorLevels(float t, float h, float a, float l) {
   PostRequest post = new PostRequest(url);
   post.addHeader("Content-Type", "application/json");
 
-  println(data.toString());
+  //println(data.toString());
 
   post.addData(data.toString());
   post.send();
@@ -44,6 +51,10 @@ void saveSensorLevels(float t, float h, float a, float l) {
   println("Reponse Content-Length Header: " + post.getHeader("Content-Length"));
 }
 
+/* Parametros:  Ninguno
+   Descripción: Envía una petición GET a la API y obtiene de la base de datos 
+                los valores de los sensores
+*/
 JSONArray getSensorLevels() {
   String url = "http://localhost:8000/sensors/read";
   GetRequest get = new GetRequest(url);
