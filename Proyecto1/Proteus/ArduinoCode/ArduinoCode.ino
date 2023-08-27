@@ -1,29 +1,138 @@
-#include <DHT.h>
-// PINES DEL SENSOR ULTRASONICO
-#define PIN_TRIG 5
-#define PIN_ECHO 4
-// PIN DEL SENSOR DE TEMPERATURA Y HUMEDAD
-#define DHT_PIN 2
-#define DHT_TYPE DHT11
-// PIN DEL SENSOR LDR
-#define LDR_PIN A1
-// PIN DEL SENSOR DE AUIRE
-#define MQ135_PIN A0
-// PIN DEL VENTILADOR
-#define FAN_PIN 7
-// PIN DEL LED
-#define LED_PIN 6
+/*
+  Arquitectura de Computadores y Ensambladores 1
+  Grupo: 03
+  Integrantes:
+    - Samuel Zea
+    - Jeser Rodas 
+    - Mariano Rac
+    - Harry Sanic
+    - Kevin García
+*/
 
-// UMBRALES
-#define MIN_DISTANCE 100
-#define MIN_TEMPERATURE 30
-#define MIN_CO2 100
+#include "definitions.h"
 
-// OBJETO DHT
+// Objeto DHT
 DHT dht(DHT_PIN, DHT_TYPE);
 
-// BANDERAS
+// Variables para el temporizador
+const unsigned long secondInterval = 1000;
+unsigned long previousMillis = 0;
+int timerLight = 0;
+
+// Banderas
 bool isFanOn = false;
+
+// Banderas para el estado de ciclos
+int lightCurrentCycle = CYCLE_ONE;
+
+void generatePullTrigger() {
+  digitalWrite(PIN_TRIG, LOW);
+  delayMicroseconds(4);
+  digitalWrite(PIN_TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(PIN_TRIG, LOW);
+}
+
+void printSensorValues(long distance, float temperature, int lightLevel, int airQuality) {
+  Serial.println("--------------");
+  Serial.print("Distancia (cm): ");
+  Serial.println(distance);
+  Serial.print("Temperatura (c): ");
+  Serial.println(temperature);
+  Serial.print("Luz (lx): ");
+  Serial.println(lightLevel);
+  Serial.print("Aire (ppm): ");
+  Serial.println(airQuality);
+}
+
+bool thereIsPerson(long distance){
+  if (distance <= 0) {
+    Serial.println("PROXIMIDAD: Nada que medir");
+    return false;
+  } else if (distance < MIN_DISTANCE) {
+    Serial.println("PROXIMIDAD: HAY PERSONAS CERCA");
+    return true;
+  } else {
+    Serial.println("PROXIMIDAD: NO HAY PERSONAS CERCA");
+    return false;
+  }
+}
+
+
+int updateTimer(int timer){
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis >= secondInterval) {
+    previousMillis = currentMillis;  
+    return (timer + 1);
+  }
+  return timer;
+}
+
+void sendAlert(String alert){
+  // TODO: Enviar alerta a usuaria a la App.
+  Serial.println(alert);
+}
+
+void monitorLight(long distance){
+  // Verificar si hay alguna persona en la habitacion
+  if (thereIsPerson(distance)){
+    // Reiniciar temporizador y el ciclo actual a 1.
+    timerLight = 0;
+    lightCurrentCycle = CYCLE_ONE;
+    // TODO: La luz puede ser manipulada manualmente
+    return;
+  }
+  
+  // Verificar si no hay alguna persona y la luz está encendida
+  if (thereIsPerson(distance) && (digitalRead(LED_PIN) == HIGH)){
+    switch(lightCurrentCycle){
+      case CYCLE_ONE:
+        // Actualizar temporizador
+        timerLight = updateTimer(timerLight);
+        
+        // Verificar si terminó el temporizador
+        if (timerLight >= TIMER_LIMIT_LIGHT){
+          // Enviar alerta
+          sendAlert("LUZ ALERTA 2: Apagando la luz de la habitación");
+          
+          // Reiniciar temporizador y pasar al siguiente ciclo
+          timerLight = 0;
+          lightCurrentCycle = CYCLE_TWO;
+        }
+        break;
+      case CYCLE_TWO:
+        timerLight = updateTimer(timerLight);
+        
+        // Verificar si terminó el temporizador
+        if (timerLight >= TIMER_LIMIT_LIGHT){
+          // Enviar alerta
+          sendAlert("LUZ ALERTA 2: Apagando la luz de la habitación");
+
+          // Apagar la luz
+          digitalWrite(LED_PIN, LOW);
+
+          // Reiniciar temporizador y reiniciar el ciclo.
+          timerLight = 0;
+          lightCurrentCycle = CYCLE_ONE;
+        }
+        break;
+    }
+  }
+
+  return;
+}
+
+void monitorTemperature(float temperature){
+  if (temperature > MIN_TEMPERATURE && !isFanOn) {
+    digitalWrite(FAN_PIN, HIGH);
+    isFanOn = true;
+    Serial.println("FAN: ENCENDIENDO VENTILADOR");
+  } else if (temperature < MIN_TEMPERATURE && isFanOn) {
+    digitalWrite(FAN_PIN, LOW);
+    isFanOn = false;
+    Serial.println("FAN: APAGANDO VENTILADOR");
+  }
+}
 
 void setup() {
   Serial.begin(9600);
@@ -48,53 +157,24 @@ void setup() {
   digitalWrite(LED_PIN, HIGH);
 }
 
-void generatePullTrigger() {
-  digitalWrite(PIN_TRIG, LOW);
-  delayMicroseconds(4);
-  digitalWrite(PIN_TRIG, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(PIN_TRIG, LOW);
-}
-
 void loop() {
-  // long time, distance;
-
+  // Obtener valores de los sensores
   generatePullTrigger();
   long time = pulseIn(PIN_ECHO, HIGH);
   long distance = time / 58.3;
-
   float temperature = dht.readTemperature();
   float humidity = dht.readHumidity();
   int lightLevel = analogRead(LDR_PIN);
   int airQuality = analogRead(MQ135_PIN);
 
-  Serial.println("--------------");
-  Serial.print("Distancia (cm): ");
-  Serial.println(distance);
-  Serial.print("Temperatura (c): ");
-  Serial.println(temperature);
-  Serial.print("Luz (lx): ");
-  Serial.println(lightLevel);
-  Serial.print("Aire (ppm): ");
-  Serial.println(airQuality);
+  // Imprimir los valores en Monitor Serial
+  printSensorValues(distance, temperature, lightLevel, airQuality);
 
-  if (temperature > MIN_TEMPERATURE && !isFanOn) {
-    digitalWrite(FAN_PIN, HIGH);
-    isFanOn = true;
-    Serial.println("FAN: ENCENDIENDO VENTILADOR");
-  } else if (temperature < MIN_TEMPERATURE && isFanOn) {
-    digitalWrite(FAN_PIN, LOW);
-    isFanOn = false;
-    Serial.println("FAN: APAGANDO VENTILADOR");
-  }
+  // Monitorear la luz.
+  monitorLight(distance);
 
-  if (distance <= 0) {
-    Serial.println("PROXIMIDAD: Nada que medir");
-  } else if (distance < MIN_DISTANCE) {
-    Serial.println("PROXIMIDAD: HAY PERSONAS CERCA");
-  } else {
-    Serial.println("PROXIMIDAD: NO HAY PERSONAS CERCA");
-  }
+  // Monitorear la temperatura.
+  monitorTemperature(temperature);
 
   delay(1000);
 }
