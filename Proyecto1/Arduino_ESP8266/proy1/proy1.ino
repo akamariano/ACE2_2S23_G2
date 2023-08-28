@@ -1,7 +1,7 @@
 #include <DHT.h>
 
 // PINES DEL SENSOR ULTRASONICO
-#define PIN_TRIG D1
+#define PIN_TRIG D4
 #define PIN_ECHO D2
 
 // PIN DEL SENSOR DE TEMPERATURA Y HUMEDAD
@@ -29,7 +29,7 @@ float humidity;
 
 void setup() {
   Serial.begin(9600);
-
+  
   pinMode(PIN_TRIG, OUTPUT);
   pinMode(PIN_ECHO, INPUT);
 
@@ -50,16 +50,19 @@ void loop() {
 
   temperature = dht.readTemperature();
   humidity = dht.readHumidity();
+  
+  
   digitalWrite(PIN_TRIG, LOW);  //para generar un pulso limpio ponemos a LOW 4us
   delayMicroseconds(4);
 
   digitalWrite(PIN_TRIG, HIGH);  //generamos Trigger (disparo) de 10us
   delayMicroseconds(10);
   digitalWrite(PIN_TRIG, LOW);
+  
 
   tiempo = pulseIn(PIN_ECHO, HIGH);
   distancia = tiempo / 58.3;
-
+  
 
   int lightLevel = analogRead(LDR_PIN);
 
