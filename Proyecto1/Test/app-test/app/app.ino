@@ -1,11 +1,13 @@
 // Libería de arduino
 #include <Arduino.h>
+
 // Definir ESP32 o ESP8266
 #if defined(ESP32)
 #include <WiFi.h>
 #elif defined(ESP8266)
 #include <ESP8266WiFi.h>
 #endif
+
 // Librería Firebase
 #include <FirebaseESP8266.h>
 

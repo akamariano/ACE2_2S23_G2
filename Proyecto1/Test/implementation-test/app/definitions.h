@@ -1,0 +1,49 @@
+#ifndef DEFINITIONS_H
+#define DEFINITIONS_H
+
+#include <DHT.h>
+
+// PINES DEL SENSOR ULTRASONICO
+#define PIN_TRIG D4
+#define PIN_ECHO D2
+
+// PIN DEL SENSOR DE TEMPERATURA Y HUMEDAD
+#define DHT_PIN  D5
+#define DHT_TYPE DHT11
+
+// PIN DEL SENSOR LDR
+// #define LDR_PIN A1
+
+// PIN DEL SENSOR DE AIRE
+#define MQ135_PIN A0  
+
+// PIN DEL VENTILADOR
+#define FAN_PIN D7
+
+// PIN DEL LED
+#define LED_PIN D8  
+
+// UMBRALES
+#define MIN_DISTANCE 100
+#define MIN_TEMPERATURE 30
+#define MIN_CO2 100
+
+// CICLOS
+#define CYCLE_ONE 1
+#define CYCLE_TWO 2
+#define CYCLE_THREE 3
+
+// TIEMPO DE TEMPORIZADOR
+#define TIMER_LIMIT_LIGHT 3
+#define TIMER_LIMIT_AIR   3
+#define TIMER_LIMIT_FAN   3
+
+// KEYS DE ALERTAS
+#define INIT_ALERT "i"
+#define AIR_ALERT_1 "ad"
+#define AIR_ALERT_2 "ao"
+#define LIGHT_ALERT_1 "l1"
+#define LIGHT_ALERT_2 "l2"
+
+
+#endif
