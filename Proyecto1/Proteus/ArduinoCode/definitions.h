@@ -27,6 +27,6 @@
 #define CYCLE_TWO 2
 
 // TIEMPO DE TEMPORIZADOR
-#define TIMER_LIMIT_LIGHT 20
+#define TIMER_LIMIT_LIGHT 3
 
 #endif

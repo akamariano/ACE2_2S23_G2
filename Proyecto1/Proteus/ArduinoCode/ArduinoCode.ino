@@ -47,13 +47,10 @@ void printSensorValues(long distance, float temperature, int lightLevel, int air
 
 bool thereIsPerson(long distance){
   if (distance <= 0) {
-    Serial.println("PROXIMIDAD: Nada que medir");
     return false;
   } else if (distance < MIN_DISTANCE) {
-    Serial.println("PROXIMIDAD: HAY PERSONAS CERCA");
     return true;
   } else {
-    Serial.println("PROXIMIDAD: NO HAY PERSONAS CERCA");
     return false;
   }
 }
@@ -84,7 +81,7 @@ void monitorLight(long distance){
   }
   
   // Verificar si no hay alguna persona y la luz está encendida
-  if (thereIsPerson(distance) && (digitalRead(LED_PIN) == HIGH)){
+  if (!thereIsPerson(distance) && (digitalRead(LED_PIN) == HIGH)){
     switch(lightCurrentCycle){
       case CYCLE_ONE:
         // Actualizar temporizador
@@ -93,7 +90,7 @@ void monitorLight(long distance){
         // Verificar si terminó el temporizador
         if (timerLight >= TIMER_LIMIT_LIGHT){
           // Enviar alerta
-          sendAlert("LUZ ALERTA 2: Apagando la luz de la habitación");
+          sendAlert("LUZ ALERTA 1: La luz esta encendida y la habitacion esta vacia");
           
           // Reiniciar temporizador y pasar al siguiente ciclo
           timerLight = 0;
@@ -126,11 +123,16 @@ void monitorTemperature(float temperature){
   if (temperature > MIN_TEMPERATURE && !isFanOn) {
     digitalWrite(FAN_PIN, HIGH);
     isFanOn = true;
+  
     Serial.println("FAN: ENCENDIENDO VENTILADOR");
-  } else if (temperature < MIN_TEMPERATURE && isFanOn) {
+    return;
+  }
+  
+  if (temperature < MIN_TEMPERATURE && isFanOn) {
     digitalWrite(FAN_PIN, LOW);
     isFanOn = false;
     Serial.println("FAN: APAGANDO VENTILADOR");
+    return; 
   }
 }
 
