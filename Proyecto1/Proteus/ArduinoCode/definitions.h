@@ -16,6 +16,7 @@
 #define FAN_PIN 7
 // PIN DEL LED
 #define LED_PIN 6
+#define LED_SWITCH_PIN 3
 
 // UMBRALES
 #define MIN_DISTANCE 100

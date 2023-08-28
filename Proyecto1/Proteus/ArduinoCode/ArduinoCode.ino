@@ -77,9 +77,13 @@ void monitorLight(long distance){
     timerLight = 0;
     lightCurrentCycle = CYCLE_ONE;
     // TODO: La luz puede ser manipulada manualmente
+    if (digitalRead(LED_SWITCH_PIN) == HIGH){
+      (digitalRead(LED_PIN) == HIGH) ? digitalWrite(LED_PIN, LOW) : digitalWrite(LED_PIN, HIGH);
+      delay(100);
+    }
     return;
   }
-  
+
   // Verificar si no hay alguna persona y la luz está encendida
   if (!thereIsPerson(distance) && (digitalRead(LED_PIN) == HIGH)){
     switch(lightCurrentCycle){
