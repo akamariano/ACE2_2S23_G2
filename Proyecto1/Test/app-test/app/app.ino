@@ -89,6 +89,8 @@ void setup() {
   // Conexión firebase
   Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
   Firebase.reconnectWiFi(true);
+
+  
   // Inicialización del DHT11
   dht.begin();  //Serial.print(F("DHTxx test!"));
 
