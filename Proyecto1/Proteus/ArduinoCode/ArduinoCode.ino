@@ -86,11 +86,11 @@ void monitorLight(long distance){
 
   // Verificar si no hay alguna persona y la luz está encendida
   if (!thereIsPerson(distance) && (digitalRead(LED_PIN) == HIGH)){
+    // Actualizar temporizador
+    timerLight = updateTimer(timerLight);
+
     switch(lightCurrentCycle){
       case CYCLE_ONE:
-        // Actualizar temporizador
-        timerLight = updateTimer(timerLight);
-        
         // Verificar si terminó el temporizador
         if (timerLight >= TIMER_LIMIT_LIGHT){
           // Enviar alerta
@@ -102,24 +102,21 @@ void monitorLight(long distance){
         }
         break;
       case CYCLE_TWO:
-        timerLight = updateTimer(timerLight);
-        
         // Verificar si terminó el temporizador
         if (timerLight >= TIMER_LIMIT_LIGHT){
           // Enviar alerta
           sendAlert("LUZ ALERTA 2: Apagando la luz de la habitación");
 
-          // Apagar la luz
-          digitalWrite(LED_PIN, LOW);
-
           // Reiniciar temporizador y reiniciar el ciclo.
           timerLight = 0;
           lightCurrentCycle = CYCLE_ONE;
+          
+          // Apagar la luz
+          digitalWrite(LED_PIN, LOW);
         }
         break;
     }
   }
-
   return;
 }
 
