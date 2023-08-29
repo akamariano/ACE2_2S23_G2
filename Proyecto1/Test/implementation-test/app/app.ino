@@ -133,7 +133,8 @@ int updateTimer(int timer) {
 }
 
 void monitorAirQuality(float airQuality) {
-  if (airQuality > 400) {
+  if (airQuality > MIN_CO2) {
+    // Si el aire está contaminado, se actualiza el temporizador.
     timerAir = updateTimer(timerAir);
     switch (airCurrentCycle) {
       case CYCLE_ONE:
@@ -166,6 +167,7 @@ void monitorAirQuality(float airQuality) {
         break;
     }
   } else {
+    // Si el aire está en nivel aceptable, se reinicia el temporizador y el ciclado
     timerAir = 0;
     airCurrentCycle = CYCLE_ONE;
   }
@@ -240,6 +242,42 @@ void monitorLight(long distance) {
   return;
 }
 
+void switchTemperatureFan() {
+  String sValue;
+  if (Firebase.RTDB.getString(&Proyecto1, "/T1")) {
+    if (Proyecto1.dataType() == "string") {
+      sValue = Proyecto1.stringData();
+      int a = sValue.toInt();
+      if (a == 1) {
+        digitalWrite(FAN_PIN, HIGH);
+      } else {
+        digitalWrite(FAN_PIN, LOW);
+      }
+    }
+  }
+}
+
+void monitorTemperature(float temperature) {
+  // Si el FAN está apagado, detectar cambios
+  if (digitalRead(FAN_PIN) == LOW) {
+    switchTemperatureFan();
+    return;
+  }
+
+  // Si la temperatura está arriba del máximo y el FAN está activo: Continuar
+  if (temperature >= MAX_TEMPERATURE && digitalRead(FAN_PIN) == HIGH){
+    return;
+  }
+  
+  // Si la temperatura está debajo del máximo y el FAN está activo: Apagar FAN
+  if (temperature < MAX_TEMPERATURE && digitalRead(FAN_PIN) == HIGH){
+    Firebase.setString(Proyecto1, "/T1", "0");
+    sendAlert(TEMP_ALERT_1);
+    switchTemperatureFan();
+    return;
+  }
+}
+
 void loop() {
   // Leer datos de los sensores
   generatePullTrigger();
@@ -258,11 +296,14 @@ void loop() {
   // Monitor de calidad de aire
   monitorAirQuality(air);
 
+  // Monitor de temperatura
+  monitorTemperature(temperature);
+
   // Actualizar los datos de tiempo real en la DB.
   updateSensorsDB(distance, temperature, humidity, air);
 
   // Subir los datos como historial a la DB. (Guarda cada 10 segundos)
   updateSensorsRecordDB(distance, temperature, humidity, air);
-  
+
   delay(1000);
 }
