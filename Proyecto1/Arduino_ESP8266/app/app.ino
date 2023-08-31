@@ -32,6 +32,12 @@ unsigned long previousMillis = 0;
 int timerLight = 0;
 int timerAir = 0;
 
+// Flag para evitar colision de temperatura y aire
+// 0: Esta libre
+// 1: Esta siendo usado por el monitoreo de aire
+// 2: Esta siendo usado por el monitoro de temperatura
+int fanIsUsed = 0;
+
 void setup() {
   // Inicia comunicacion serial
   Serial.begin(115200);
@@ -152,8 +158,11 @@ void monitorAirQuality(float airQuality) {
       case CYCLE_TWO:
         if (timerAir >= TIMER_LIMIT_AIR) {
           // Iniciar limpieza de aire
-          digitalWrite(FAN_PIN, HIGH);
+          if (fanIsUsed == 0){
+            fanIsUsed = 1;
+            digitalWrite(FAN_PIN, HIGH);
 
+          }        
           // Reiniciar temporizador y pasar al siguiente ciclo
           timerAir = 0;
           airCurrentCycle = CYCLE_THREE;
@@ -162,8 +171,11 @@ void monitorAirQuality(float airQuality) {
       case CYCLE_THREE:
         if (timerAir >= TIMER_LIMIT_FAN) {
           // Finalizar limpieza de aire
-          digitalWrite(FAN_PIN, LOW);
-
+          if(fanIsUsed == 1){
+            fanIsUsed = 0;
+            digitalWrite(FAN_PIN, LOW);
+          }
+          
           // Reiniciar temporizador y reiniciar ciclado
           timerAir = 0;
           airCurrentCycle = CYCLE_ONE;
@@ -254,8 +266,10 @@ void switchTemperatureFan() {
       sValue = Proyecto1.stringData();
       int a = sValue.toInt();
       if (a == 1) {
+        fanIsUsed = 2
         digitalWrite(FAN_PIN, HIGH);
       } else {
+        fanIsUsed = 0
         digitalWrite(FAN_PIN, LOW);
       }
     }
@@ -275,7 +289,7 @@ void monitorTemperature(float temperature) {
   }
   
   // Si la temperatura está debajo del máximo y el FAN está activo: Apagar FAN
-  if (temperature < MAX_TEMPERATURE && digitalRead(FAN_PIN) == HIGH){
+  if (temperature < MAX_TEMPERATURE && digitalRead(FAN_PIN) == HIGH && fanIsUsed == 2){
     Firebase.setString(Proyecto1, "/T1", "0");
     sendAlert(TEMP_ALERT_1);
     switchTemperatureFan();
