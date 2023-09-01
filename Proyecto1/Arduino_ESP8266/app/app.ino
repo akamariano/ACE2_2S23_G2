@@ -266,10 +266,10 @@ void switchTemperatureFan() {
       sValue = Proyecto1.stringData();
       int a = sValue.toInt();
       if (a == 1) {
-        fanIsUsed = 2
+        fanIsUsed = 2;
         digitalWrite(FAN_PIN, HIGH);
       } else {
-        fanIsUsed = 0
+        fanIsUsed = 0;
         digitalWrite(FAN_PIN, LOW);
       }
     }

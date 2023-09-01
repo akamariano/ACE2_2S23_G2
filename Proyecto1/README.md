@@ -8,11 +8,7 @@
 ### Enlaces
 
 <ul>
-    <li>Documentación</a></li>
-</ul>
-
-<ul>
-    <li>Video</a></li>
+    <li><a href="https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/info.md">Documentación</a></li>
 </ul>
 
     
