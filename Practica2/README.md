@@ -84,6 +84,17 @@ A continuación, se presentan los bocetos del prototipo y su construcción:
 
 ## MQTT
 
+MQTT, que significa Message Queuing Telemetry Transport, es un protocolo de comunicación ligero y eficiente para transferir mensajes entre dispositivos en una red. Desarrollado por IBM en la década de 1990, se ha convertido en un estándar ampliamente utilizado en Internet de las cosas (IoT) y aplicaciones de comunicación de dispositivo a dispositivo.
+
+Características:
+
+- Voluntad del cliente: los clientes MQTT pueden configurar un mensaje de "voluntad" para que se envíe automáticamente si el cliente se desconecta inesperadamente. Esto es útil para notificar a otros dispositivos que un cliente se ha desconectado.
+
+- Ligero: MQTT es un protocolo de comunicación ligero y eficiente en términos de consumo de ancho de banda y recursos de hardware. Esto lo hace adecuado para dispositivos con recursos limitados, como sensores y dispositivos IoT.
+
+- Eficiencia del ancho de banda: MQTT está diseñado para utilizar el ancho de banda de manera eficiente, reduciendo la sobrecarga de comunicación. Los encabezados de los mensajes son pequeños y el protocolo está diseñado para minimizar la cantidad de datos innecesarios transferidos.
+
+- Escalabilidad: MQTT es altamente escalable y puede manejar una gran cantidad de dispositivos y clientes conectados simultáneamente. La arquitectura cliente-agente le permite conectar y administrar dispositivos de manera eficiente.
 
 ### Broker
 ---
@@ -142,6 +153,13 @@ En el contexto de MQTT (Message Queuing Telemetry Transport), el término "Publi
 
 El flujo de datos en MQTT se organiza en torno a temas (topics), que actúan como canales de comunicación a los que los dispositivos pueden suscribirse o desde los cuales pueden publicar mensajes. Los publicadores (Publishers) son responsables de enviar mensajes a uno o varios temas en el servidor MQTT. Estos mensajes pueden contener información de sensores, comandos o cualquier tipo de dato que se deba transmitir a los suscriptores (Subscribers) interesados en este tema en particular.
 Los publicadores envían mensajes a un tema específico utilizando el servidor MQTT como intermediario, y luego los suscriptores que estén suscritos a ese tema recibirán los mensajes para su procesamiento o visualización.
+
+
+### Subscriber
+---
+En el contexto del transporte de telemetría de colas de mensajes (MQTT), un suscriptor es un componente o entidad que se suscribe a uno o más temas específicos en el sistema MQTT para recibir mensajes publicados sobre esos temas. Los suscriptores son uno de los dos roles principales en MQTT, el otro es el de "editor".
+
+Un suscriptor MQTT puede realizar múltiples suscripciones a diferentes temas o incluso al mismo tema con diferentes niveles de calidad de servicio (QoS). Esto permite a un suscriptor recibir una variedad de datos de múltiples fuentes o controlar diferentes aspectos de un sistema IoT.
 
 
 # Referencias
