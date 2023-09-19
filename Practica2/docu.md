@@ -45,13 +45,14 @@ A continuación, se presentan los bocetos del prototipo y su construcción:
 ![Diseño Final](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/WhatsApp%20Image%202023-08-31%20at%2010.24.38%20AM.jpeg)
 ![Diseño Final](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/WhatsApp%20Image%202023-08-31%20at%2010.24.38%20AM%20(1).jpeg)
 ![Diseño Final](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/WhatsApp%20Image%202023-08-31%20at%2010.24.39%20AM.jpeg)
-
+### Aplicación Web
+![Mockup de la Aplicación](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Practica2/images/Muckup.png)
 ### Aplicación Móvil
-
-A continuación, se presentan las pantallas de la app:
-
 ![Captura de Pantalla de la Aplicación](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/WhatsApp%20Image%202023-08-31%20at%2010.24.39%20AM%20(1).jpeg)
 ![Captura de Pantalla de la Aplicación](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/WhatsApp%20Image%202023-08-31%20at%2010.24.39%20AM%20(2).jpeg)
+### Smart Connected Design Framework
+
+### Diagramas
 
 ### MQTT
 
