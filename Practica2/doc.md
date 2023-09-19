@@ -50,11 +50,91 @@ A continuación, se presentan los bocetos del prototipo y su construcción:
 ### Aplicación Móvil
 ![Captura de Pantalla de la Aplicación](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/WhatsApp%20Image%202023-08-31%20at%2010.24.39%20AM%20(1).jpeg)
 ![Captura de Pantalla de la Aplicación](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/WhatsApp%20Image%202023-08-31%20at%2010.24.39%20AM%20(2).jpeg)
+
 ### Smart Connected Design Framework
+
+**Capa 0: Things**
+Estación meteorológica IoT.
+
+**Capa 1: Hardware**
+Estas son las partes físicas del sistema que recopilan datos del entorno
+- Sensor de temperatura: DHT
+- Sensor ultrasónico para detectar presencia humana: HC-SR04
+- Sensor de iluminación: LDR
+- Sensor de medición de calidad de aire (CO2 en el ambiente): MQ135
+- Ventilador.
+- Actuador.
+
+Las partes están conectadas a través de un Arduino.
+
+**Capa 2: Software**
+Programación a través de Arduino IDE, qué utiliza como base C++, y librerías desarrolladas para el control de los sensores respectivos.
+
+**Capa 3: Communication**
+La comunicación con el dispositivo se realiza mediante WiFi o mediante cable USB que envía los datos a una API que conecta con internet.
+
+**Capa 4: Cloud Platform**
+Los datos del dispositivo llegan a una API que está conectada con un MQTT y a una base de datos en la nube.
+
+**Capa 5: Cloud Applications**
+Visualización de los datos a través de una página web y una aplicación móvil. Esto puede incluir visualizaciones, alertas, informes y acciones en el dispositivo. Además, se utiliza Grafana para la visualización de datos en la página web.
 
 ### Diagramas
 
 ### MQTT
+
+**Broker**
+
+Un broker en MQTT (Message Queuing Telemetry Transport) es un componente central en la arquitectura de este protocolo de comunicación. MQTT es un protocolo de mensajería ligero y eficiente diseñado para la comunicación entre dispositivos en redes con ancho de banda limitado o en condiciones de conectividad intermitente. Un broker MQTT actúa como intermediario entre los dispositivos que desean intercambiar mensajes.
+
+- Recepción y enrutamiento de mensajes: El broker MQTT recibe los mensajes publicados por los dispositivos y los enruta a los dispositivos suscritos adecuados. Cada mensaje enviado a través de MQTT tiene un "tema" (topic), y los dispositivos pueden suscribirse a temas específicos para recibir solo los mensajes que les interesan.
+
+- Almacenamiento temporal: El broker puede retener los mensajes publicados durante un tiempo determinado, lo que permite a los dispositivos que se conectan más tarde recibir los mensajes que se perdieron mientras estaban desconectados. Esto es especialmente útil en situaciones de conectividad intermitente.
+
+- Garantía de entrega: El broker MQTT puede proporcionar diferentes niveles de garantía de entrega, como QoS (Quality of Service), que permite especificar cuántas veces se debe entregar un mensaje y si se debe almacenar en el broker hasta que se confirme su entrega.
+
+- Gestión de sesiones: El broker mantiene un registro de las sesiones de los clientes MQTT para garantizar una comunicación confiable incluso si los dispositivos se desconectan y vuelven a conectarse.
+Autenticación y autorización: Los brokers MQTT pueden implementar medidas de seguridad, como autenticación de clientes y autorización para controlar quién puede publicar o suscribirse a ciertos temas.
+
+- Escalabilidad: Los brokers MQTT pueden ser configurados para manejar una gran cantidad de dispositivos y mensajes, lo que los hace adecuados para aplicaciones de IoT (Internet de las cosas) y M2M (Machine-to-Machine).
+
+**Tipos de Broker**
+Los tipos de broker son:
+
+- Broker Centralizado: Este es el tipo de broker más común. Un broker centralizado actúa como un intermediario central que recibe todos los mensajes publicados por los dispositivos y los enruta a los dispositivos suscritos apropiados. Todos los dispositivos se conectan al mismo broker para enviar y recibir mensajes. Este enfoque es sencillo de configurar y administrar, pero puede convertirse en un punto único de fallo y una limitación en términos de escalabilidad si se trata de un sistema muy grande.
+
+- Broker Descentralizado: En un broker descentralizado, no hay un único broker central que gestione todas las comunicaciones. En su lugar, varios brokers se comunican entre sí mediante un protocolo de enrutamiento para permitir la comunicación entre dispositivos en diferentes dominios de broker. Esto puede ser útil para distribuir la carga y mejorar la escalabilidad. 
+
+- Broker Autocontenido (Broker Empotrado o Broker Integrado): En algunos casos, MQTT se implementa como un broker embebido en los propios dispositivos. Cada dispositivo actúa como su propio broker MQTT y puede comunicarse directamente con otros dispositivos. Esto es útil en escenarios de comunicación de punto a punto o en dispositivos con recursos limitados, pero no es tan adecuado para soluciones de IoT a gran escala.
+
+**Brokers Gratuitos**
+Algunos ejemplos de brokers gratuitos son:
+
+- Eclipse Mosquitto: Eclipse Mosquitto es un broker MQTT de código abierto y gratuito ampliamente utilizado. Es ligero y adecuado para implementaciones pequeñas y medianas.
+
+- HiveMQ CE (Community Edition): HiveMQ CE es la versión gratuita de HiveMQ, un broker MQTT altamente escalable. La edición gratuita es adecuada para proyectos más pequeños y de desarrollo.
+
+- EMQX: EMQX es un broker MQTT de código abierto que ofrece una versión gratuita. Es conocido por ser escalable y adecuado para proyectos IoT de gran envergadura.
+
+- RabbitMQ: RabbitMQ es un sistema de mensajería de código abierto ampliamente utilizado. Puedes habilitar el soporte MQTT mediante un plugin, lo que lo convierte en un broker MQTT gratuito.
+
+**Brokers de Paga**
+Algunos ejemplos de brokers de paga son:
+
+- HiveMQ: HiveMQ también ofrece una versión de pago llamada HiveMQ Enterprise, que proporciona características avanzadas y soporte para implementaciones empresariales de alta demanda.
+
+- AWS IoT Core: Amazon Web Services (AWS) ofrece un servicio llamado AWS IoT Core que es un broker MQTT completamente administrado. Es de pago y escalable para aplicaciones IoT en la nube de AWS.
+
+- Microsoft Azure IoT Hub: Azure IoT Hub de Microsoft es un servicio de IoT que incluye capacidades de broker MQTT. Es parte de la plataforma Azure IoT y tiene un modelo de precios basado en el uso.
+
+- Google Cloud IoT Core: Google Cloud IoT Core es un servicio de Google Cloud que proporciona capacidades de broker MQTT gestionado. Al igual que otros servicios de la nube, tiene una estructura de precios basada en el uso.
+
+**Publisher**
+
+En el contexto de MQTT (Message Queuing Telemetry Transport), el término "Publisher" se refiere a un componente o entidad que envía mensajes o publica información en un tema (topic) en el servidor MQTT.
+
+El flujo de datos en MQTT se organiza en torno a temas (topics), que actúan como canales de comunicación a los que los dispositivos pueden suscribirse o desde los cuales pueden publicar mensajes. Los publicadores (Publishers) son responsables de enviar mensajes a uno o varios temas en el servidor MQTT. Estos mensajes pueden contener información de sensores, comandos o cualquier tipo de dato que se deba transmitir a los suscriptores (Subscribers) interesados en este tema en particular.
+Los publicadores envían mensajes a un tema específico utilizando el servidor MQTT como intermediario, y luego los suscriptores que estén suscritos a ese tema recibirán los mensajes para su procesamiento o visualización.
 
 
 ## Referencias
