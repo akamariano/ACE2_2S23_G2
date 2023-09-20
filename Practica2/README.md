@@ -38,13 +38,16 @@ Los dispositivos y sensores, así como el actuador de seguridad de la puerta (se
 A continuación se mostrá los bocetos 3D del prototipo a realizar:
 
 Aquí se muestra la forma de encapsulamientos de los sensores junto con el ventilador:  
+
 ![Sensores 3D](images/sensors.png)
 ![Sensores desde Arriba 3D](images/sensors_up.png)
 
 Por otra parte, se muestra la simulación del sistema de seguridad del prototipo, este siendo una caja aparte que tendrá su actuador para abrirla y cerrarla:
+
 ![Puerta 3D](images/box.png)
 
 Ya ambas piezas juntas se mostarían de la siguiente manera:
+
 ![Prototipo 3D](images/prototype_3d.png)
 
 ## Prototipo
