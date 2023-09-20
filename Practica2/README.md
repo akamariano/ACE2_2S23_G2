@@ -54,6 +54,8 @@ En base a los bocetos antes mostrados, se realizó el prototipo con los sensores
 ![Prototipo](images/prototype2.jpg)
 ![Prototipo](images/prototype3.jpg)
 
+Donde es importante a mencionar que la simulación del sistema de seguridad se llevará a cabo por un miniservo de 180º, este estando conectado a la puerta de la caja, la cual se abrirá y cerrará de acuerdo a la información que se reciba de la aplicación móvil y la página web.
+
 ### Aplicación Web
 ![Mockup de la Aplicación](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Practica2/images/Muckup.png)
 ### Aplicación Móvil
