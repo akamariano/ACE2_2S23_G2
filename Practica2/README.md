@@ -120,8 +120,9 @@ Como nota importante, el sistema sera capaz de manipular la luz desde la aplicac
 - **Capa 5: Cloud Applications**
     Visualización de los datos a través de una página web y una aplicación móvil. Esto puede incluir visualizaciones, alertas, informes y acciones en el dispositivo. Además, se utiliza Grafana para la visualización de datos en la página web.
 
-## Diagramas
+## Diagrama
 
+![Diagrama](images/diagrama.jpg)
 
 ## MQTT
 
