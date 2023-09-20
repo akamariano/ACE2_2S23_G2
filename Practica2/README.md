@@ -61,9 +61,36 @@ Donde es importante a mencionar que la simulación del sistema de seguridad se l
 
 ### Aplicación Web
 ![Mockup de la Aplicación](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Practica2/images/Muckup.png)
+
+- El sistema cuenta con una aplicacion web intuitiva y minimalista agradable al usuario, en el que se podran observar distintas caracteristicas del sistema, tales como la visualización de datos en tiempo real mediante un dashboard en la pantalla principal, en donde se mostraran los datos obtenidos de la base de datos los cuales son:
+
+    - Temperatura en la habitación (C°).
+    - Cantidad de luz en la habitación (Lumen).
+    - Calidad de aire (Co2 ppm).
+    - Data recolectada por mensajes activados
+
+Como nota importante, el sistema sera capaz de manipular la luz desde la aplicación web, ademas de poder observar mediante gráficos de barras el cambio y actualización de los datos que se vayan obteniendo en tiempo real, para que asi, el usuario pueda tener una conclusion exacta respecto al sistema utilizado.
+
+- **Apagar/Encender:** Al presionar este boton, el sistema enviara una señal a la luz led para realizar dicha acción, ya se encenderlo o apagarlo.
+
+- **Grafana Datos:** Al presionar este boton, automaticamente se hace uso del software grafana para poder visualizar los graficos en tiempo real y actualizados constantemente por la respuesta de la base de datos.
+
+
 ### Aplicación Móvil
-![Captura de Pantalla de la Aplicación](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/WhatsApp%20Image%202023-08-31%20at%2010.24.39%20AM%20(1).jpeg)
-![Captura de Pantalla de la Aplicación](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/WhatsApp%20Image%202023-08-31%20at%2010.24.39%20AM%20(2).jpeg)
+![Mockup app movil](images/mockup_movil.png)
+
+- El sistema cuenta con un sistema de ventilación capaz de manipular y manejar la temperatura dentro de la habitación, además de un sistema de seguridad el cual habilita la entrada o salida de la habitación, las cuales son controladas mediante la aplicacion movil, es por ello que cuenta con lo siguiente:
+
+    - **Aire**:
+
+        - **Encender:** Al presionar este boton, el ventilador automáticamente se encendera y empezara a funcionar.
+        - **Aumentar:** Al presionar este boton, la velocidad del ventilador aumentara a una razon considerable que pueda ser observable al ojo humano.
+        - **Disminuir:** Al presionar este boton, la velocidad del ventilador disminuira razonablemente haciendo posible ver la reduccion de velocidad del mismo.
+
+    - **Seguridad**:
+        
+        - **Abrir:** Ya que el sistema tiene la capacidad de autorizar o denegar el acceso a la habitacion, al presionar este boton, la puerta de la habitacion simulada se abrira automaticamente.
+        - **Cerrar:**: Del mismo modo que se puede abrir la puerta para poder acceder a la habitación, al presionar este boton, la puerta se cerrara automaticamente.
 
 ## Smart Connected Design Framework
 
