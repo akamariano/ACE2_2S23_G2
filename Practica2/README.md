@@ -34,17 +34,26 @@ Los dispositivos y sensores, así como el actuador de seguridad de la puerta (se
 2. **Inicialización y Configuración:** Se inicia la comunicación serial y se configuran los pines para los sensores ultrasónicos, el sensor DHT, el sensor de calidad del aire MQ135, el LDR, el ventilador, el LED y el actuador de la puerta (servomotor). También se establece la conexión MQTT.
 3. **Bucle Principal:** La función loop() es donde ocurren las acciones principales en un ciclo: se obtienen lecturas de temperatura y humedad del sensor DHT, se mide la distancia ultrasónica, se obtiene la intensidad lumínica del LDR y se obtiene información sobre la calidad del aire del sensor MQ135. Las lecturas se envían a la plataforma en la nube a través de MQTT y se controla el ventilador según la temperatura. Además, se monitorea la presencia de personas y se permite el control de acceso a la puerta mediante el servomotor a través de la aplicación móvil y la página web.
 
+## Bocetos
+A continuación se mostrá los bocetos 3D del prototipo a realizar:
+
+Aquí se muestra la forma de encapsulamientos de los sensores junto con el ventilador:  
+![Sensores 3D](images/sensors.png)
+![Sensores desde Arriba 3D](images/sensors_up.png)
+
+Por otra parte, se muestra la simulación del sistema de seguridad del prototipo, este siendo una caja aparte que tendrá su actuador para abrirla y cerrarla:
+![Puerta 3D](images/box.png)
+
+Ya ambas piezas juntas se mostarían de la siguiente manera:
+![Prototipo 3D](images/prototype_3d.png)
 
 ## Prototipo
+En base a los bocetos antes mostrados, se realizó el prototipo con los sensores y los actuadores, quedando este de la siguiente manera:
 
-A continuación, se presentan los bocetos del prototipo y su construcción:
+![Prototipo](images/prototype1.jpg)
+![Prototipo](images/prototype2.jpg)
+![Prototipo](images/prototype3.jpg)
 
-![Prueba de Lectura de Datos de Sensores](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/WhatsApp%20Image%202023-08-29%20at%202.45.10%20PM.jpeg)
-![Elaboración del Prototipo](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/WhatsApp%20Image%202023-08-29%20at%202.45.10%20PM%20(1).jpeg)
-![Interfaz de la App](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/WhatsApp%20Image%202023-08-31%20at%2010.24.39%20AM%20(2).jpeg)
-![Diseño Final](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/WhatsApp%20Image%202023-08-31%20at%2010.24.38%20AM.jpeg)
-![Diseño Final](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/WhatsApp%20Image%202023-08-31%20at%2010.24.38%20AM%20(1).jpeg)
-![Diseño Final](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Proyecto1/Docs/Images/WhatsApp%20Image%202023-08-31%20at%2010.24.39%20AM.jpeg)
 ### Aplicación Web
 ![Mockup de la Aplicación](https://github.com/akamariano/ACE2_2S23_G2/blob/main/Practica2/images/Muckup.png)
 ### Aplicación Móvil
