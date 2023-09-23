@@ -203,6 +203,10 @@ En el contexto del transporte de telemetría de colas de mensajes (MQTT), un sus
 
 Un suscriptor MQTT puede realizar múltiples suscripciones a diferentes temas o incluso al mismo tema con diferentes niveles de calidad de servicio (QoS). Esto permite a un suscriptor recibir una variedad de datos de múltiples fuentes o controlar diferentes aspectos de un sistema IoT.
 
+### Topic
+---
+En MQTT (Message Queuing Telemetry Transport), un "topic" (tema en español) es una cadena de texto que se utiliza para etiquetar o identificar un canal de comunicación específico dentro del protocolo MQTT. Los topics se utilizan para direccionar mensajes a destinatarios específicos o grupos de destinatarios en un sistema MQTT. Los clientes MQTT pueden suscribirse a topics para recibir mensajes publicados en ese topic o publicar mensajes en un topic específico para que otros clientes que estén suscritos a ese topic puedan recibirlos.
+
 
 # Referencias
 
