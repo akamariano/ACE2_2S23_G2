@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #65a6f0;
+        }
+        .dashboard-title {
+            background-color: yellow;
+            padding: 20px;
+            text-align: center;
+        }
+        .flashcard {
+            background-color: white;
+            margin: 20px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center; 
+        }
+        .flashcard img {
+            max-width: 100px;
+            height: auto;
+        }
+        .flashcard-button {
+            margin-top: 10px;
+        }
+    
+        .vertical-cards {
+            background-color: lightblue;
+            flex-direction: column;
+            align-items: center;
+            text-align: center; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-title">
+            <h1>Dashboard</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="flashcard">
+                    <img src="https://creazilla-store.fra1.digitaloceanspaces.com/emojis/42985/thermometer-emoji-clipart-md.png" alt="Temperatura">
+                    <h2>Temperatura</h2>
+                    <p>Grados: 25°C</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="flashcard">
+                    <img src="https://cdn-icons-png.flaticon.com/512/732/732436.png" alt="Iluminación">
+                    <h2>Iluminación</h2>
+                    <p>Lúmenes: 500</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="flashcard">
+                    <img src="https://images.vexels.com/media/users/3/182485/isolated/preview/5b33710dbee30e6b343e512aeb4dbf1a-hombre-de-dibujos-animados-britanico-de-caracter.png" alt="Presencia Humana">
+                    <h2>Presencia Humana</h2>
+                    <p>Distancia: 2 metros</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="flashcard">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5232/5232816.png" alt="Calidad del Aire">
+                    <h2>Calidad del Aire</h2>
+                    <p>PPM: 30</p>
+                </div>
+            </div>
+           
+            <div class="col-md-6 vertical-cards">
+                <div class="flashcard">
+                    <img src="https://cdn-icons-png.flaticon.com/512/732/732436.png" alt="Foco">
+                    <h2>Foco</h2>
+                    <button class="btn btn-primary flashcard-button">Encender</button>
+                </div>
+            </div>
+            <div class="col-md-6 vertical-cards">
+                <div class="flashcard">
+                    <img src="https://creazilla-store.fra1.digitaloceanspaces.com/emojis/45188/bar-chart-emoji-clipart-xl.png" alt="Gráficas">
+                    <h2>Gráficas</h2>
+                    <button class="btn btn-success flashcard-button">Ver Gráficas</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
