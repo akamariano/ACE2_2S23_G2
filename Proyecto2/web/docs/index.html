@@ -8,40 +8,77 @@
     <style>
         body {
             background-color: #65a6f0;
+            font-family: 'Helvetica', cursive; /* Fuente personalizada */
         }
         .dashboard-title {
             background-color: yellow;
-            padding: 20px;
+            padding: 30px;
             text-align: center;
+            font-size: 30px; 
         }
         .flashcard {
             background-color: white;
             margin: 20px;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            text-align: center; 
+            text-align: center;
+            transition: transform 0.3s ease;
+            font-family: 'Helvetica', sans-serif;
+        }
+        .flashcard:hover {
+            transform: scale(1.1);
         }
         .flashcard img {
             max-width: 100px;
             height: auto;
         }
         .flashcard-button {
-            margin-top: 10px;
+            margin-top: 20px;
         }
     
         .vertical-cards {
-            background-color: lightblue;
+            
+            display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center; 
+            padding: 10px;
+            font-family: 'Helvetica', cursive; 
+            font-size: 24px; 
+            transform: scale(1.1); 
         }
+        .vertical-cards .flashcard-button {
+            margin-top: 20px;
+        }
+        .navbar {
+            background-color: #76f065; /* Color verde */
+        }
+        .navbar-brand {
+            font-size: 24px; /* Tamaño de fuente más grande */
+            font-weight: bold; /* Texto en negrita */
+        }
+        .nav-link {
+            font-size: 20px; /* Tamaño de fuente para las opciones */
+        }
+        .red {
+    background-color: red !important;
+    border-color: red !important;
+    color: white !important;
+}
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="dashboard-title">
-            <h1>Dashboard</h1>
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <a class="navbar-brand" href="#">Dashboard</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="https://github.com/akamariano/ACE2_2S23_G2/blob/main/Practica2/README.md">Documentación</a>
+                </li>
+            </ul>
         </div>
+    </nav>
+    <div class="container">
         <div class="row">
             <div class="col-md-6">
                 <div class="flashcard">
@@ -76,7 +113,7 @@
                 <div class="flashcard">
                     <img src="https://cdn-icons-png.flaticon.com/512/732/732436.png" alt="Foco">
                     <h2>Foco</h2>
-                    <button class="btn btn-primary flashcard-button">Encender</button>
+                    <button class="btn btn-primary flashcard-button red">Encender</button>
                 </div>
             </div>
             <div class="col-md-6 vertical-cards">
@@ -88,5 +125,9 @@
             </div>
         </div>
     </div>
+    <footer class="bg-dark text-white text-center py-3">
+        <p class="mb-0">Arquitectura de Computadoras y Ensambladores 2 2S2023</p>
+    </footer>
+    <script src="index.js"></script>
 </body>
 </html>
