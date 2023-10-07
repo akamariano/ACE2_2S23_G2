@@ -1,5 +1,6 @@
-const { ADDRESS } = require("./Config");
 const mqtt = require('mqtt');
+const chalk = require('chalk');
+const { ADDRESS } = require("./Config");
 const {SerialPort, ReadlineParser} = require('serialport');
 
 // ---------------------- SERIAL COMM ---------------------- 
@@ -21,10 +22,10 @@ parser.on("data", async (arduinoData) => {
     const topic = arduinoData[0].toLowerCase();
     const data = arduinoData[1];
         
-    console.log(`Arduino - Topic: ${topic} Data: ${data}`)
+    // console.log(`Arduino - Topic: ${topic} Data: ${data}`)
 
     // Enviar la data al broker
-    // publishArduino(topic, data);
+    publishArduino(topic, data);
 })
 
 port.on("open", () => {
@@ -52,10 +53,10 @@ const clientArduino = mqtt.connect(`mqtt://${ADDRESS}`);
 
 // Conexion al broker y suscripcion a los topics
 clientArduino.on("connect", () => {
-    console.log("ClientArduino is connected");
+    console.log(chalk.bold.green("ClientArduino - Connected"));
     for (const topic of topicsClientArduino) {
         clientArduino.subscribe(topic, () => {
-            console.log(`Subscribed to ${topic}`);
+            console.log(`ClientArduino - Subscribed to ${topic}`);
         });
     }
 });
@@ -65,9 +66,9 @@ clientArduino.on("connect", () => {
 function publishArduino(topic, message) {
     clientArduino.publish(topic, message, (error) => {
         if (!error) {
-            console.log(`ClientArduino:  ${topic} -> ${message}`);
+            console.log(`ClientArduino - Publish:  ${topic} -> ${message}`);
         } else {
-            console.error("ClientArduino Error: ", error);
+            console.error("ClientArduino - Error: ", error);
         }
     });
 }
@@ -76,7 +77,7 @@ function publishArduino(topic, message) {
 
 // Al recibir un mensaje.
 clientArduino.on("message", (topic, data) => {
-    console.log(`Received message on ${topic}: ${data}`);
+    console.log(`ClientArduino - Received message on ${topic}: ${data}`);
 
     // Enviar el dato al Arduino
     sendToArduino(topic, data);
@@ -84,7 +85,7 @@ clientArduino.on("message", (topic, data) => {
 
 // Enviar datos al Arduino
 function sendToArduino(topic, data) {
-    port.write(`${topic}, ${data}\n`, (error) => {
+    port.write(`${topic} ${data.toString().toLowerCase()}\n`, (error) => {
         if (error) {
             console.error("Arduino - Error on write: ", error.message);
         } else {
@@ -98,3 +99,9 @@ function sendToArduino(topic, data) {
 clientArduino.on("error", (error) => {
     console.error("ClientArduino Error: ", error, "\n");
 });
+
+
+
+module.exports = {
+    clientArduino
+}

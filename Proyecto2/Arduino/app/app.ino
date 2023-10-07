@@ -1,8 +1,10 @@
 #include <Arduino.h>
 #include "definitions.h"
+#include <Servo.h>
 
-// Objeto DHT
+
 DHT dht(DHT_PIN, DHT_TYPE);
+Servo servoMotor;
 
 // Banderas para el estado de ciclos
 int lightCurrentCycle = CYCLE_ONE;
@@ -26,17 +28,17 @@ void setup() {
   // Inicia comunicacion serial
   Serial.begin(9600);
   Serial1.begin(9600);
-  
+
   // Inicialización: Sensor DHT11
   dht.begin();
 
   // Inicialización: Sensor Ultrasonico
-  pinMode(PIN_TRIG, OUTPUT);
+  pinMode(PIN_TRIGGER, OUTPUT);
   pinMode(PIN_ECHO, INPUT);
 
   // Inicialización: Sensor de Aire
   pinMode(MQ135_PIN, INPUT);
-  
+
   // Inicialización: Sensor de Luz
   pinMode(LDR_PIN, INPUT);
 
@@ -47,14 +49,17 @@ void setup() {
   // Inicialización: Ventilador
   pinMode(FAN_PIN, OUTPUT);
   digitalWrite(FAN_PIN, LOW);
+
+  // Inicializacion: Servo
+  servoMotor.attach(SERVO_PIN);
 }
 
 void generatePullTrigger() {
-  digitalWrite(PIN_TRIG, LOW);
+  digitalWrite(PIN_TRIGGER, LOW);
   delayMicroseconds(4);
-  digitalWrite(PIN_TRIG, HIGH);
+  digitalWrite(PIN_TRIGGER, HIGH);
   delayMicroseconds(10);
-  digitalWrite(PIN_TRIG, LOW);
+  digitalWrite(PIN_TRIGGER, LOW);
 }
 
 bool thereIsPerson(long distance) {
@@ -94,10 +99,20 @@ void sendSensorValues(long distance, float temperature, float humidity, float ai
   Serial.println(light);
 }
 
+/**
+  Envia una alerta a través de conexión serial.
+*/
 void sendAlert(String keyAlert) {
-  return;
+  Serial.print("alerta ");
+  Serial.println(keyAlert);
 }
 
+/**
+  Actualiza un temporizador cada vez que se detecta que ha pasado un segundo.
+
+  @param timer El temporizador a actualizar
+  @return El temporizador actualizado
+*/
 int updateTimer(int timer) {
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= secondInterval) {
@@ -107,6 +122,13 @@ int updateTimer(int timer) {
   return timer;
 }
 
+/**
+  Monitorea la calidad del aire y dependiendo de la misma,
+  decide si activar la ventilación. Además, maneja la lógica de los estados de 
+  esta función.
+
+  @param airQuality Valor actual de la calidad del aire.
+*/
 void monitorAirQuality(float airQuality) {
   if (airQuality > MIN_CO2) {
     // Si el aire está contaminado, se actualiza el temporizador.
@@ -122,11 +144,10 @@ void monitorAirQuality(float airQuality) {
       case CYCLE_TWO:
         if (timerAir >= TIMER_LIMIT_AIR) {
           // Iniciar limpieza de aire
-          if (fanIsUsed == 0){
+          if (fanIsUsed == 0) {
             fanIsUsed = 1;
             digitalWrite(FAN_PIN, HIGH);
-
-          }        
+          }
           // Reiniciar temporizador y pasar al siguiente ciclo
           timerAir = 0;
           airCurrentCycle = CYCLE_THREE;
@@ -135,11 +156,11 @@ void monitorAirQuality(float airQuality) {
       case CYCLE_THREE:
         if (timerAir >= TIMER_LIMIT_FAN) {
           // Finalizar limpieza de aire
-          if(fanIsUsed == 1){
+          if (fanIsUsed == 1) {
             fanIsUsed = 0;
             digitalWrite(FAN_PIN, LOW);
           }
-          
+
           // Reiniciar temporizador y reiniciar ciclado
           timerAir = 0;
           airCurrentCycle = CYCLE_ONE;
@@ -162,27 +183,23 @@ void monitorAirQuality(float airQuality) {
                 2: Apagar LED
 */
 void switchLight() {
-  // String sValue;
-  // if (Firebase.RTDB.getString(&Proyecto1, "/L1")) {
-  //   if (Proyecto1.dataType() == "string") {
-  //     sValue = Proyecto1.stringData();
-  //     int a = sValue.toInt();
-  //     if (a == 1) {
-  //       digitalWrite(LED_PIN, HIGH);
-  //     } else {
-  //       digitalWrite(LED_PIN, LOW);
-  //     }
-  //   }
-  // }
+  if (dataReceived == "") {
+    return;
+  } else if (dataReceived == "estadoluz 0") {
+    digitalWrite(LED_PIN, LOW);
+  } else if (dataReceived == "estadoluz 1") {
+    digitalWrite(LED_PIN, HIGH);
+  }
 }
 
 void monitorLight(long distance) {
+  
+  
   // Verificar si hay alguna persona en la habitacion
   if (thereIsPerson(distance)) {
     // Reiniciar temporizador y el ciclo actual a 1.
     timerLight = 0;
     lightCurrentCycle = CYCLE_ONE;
-    // TODO: La luz puede ser manipulada manualmente
     switchLight();
     return;
   }
@@ -223,44 +240,102 @@ void monitorLight(long distance) {
   return;
 }
 
+/**
+  Método que verifica si se recibieron datos a través de la conexión serial.
+  Luego, según lo recibido, activa o desactiva el FAN.
+
+  TODO: Implementar dos velocidades
+*/
 void switchTemperatureFan() {
-  // String sValue;
-  // if (Firebase.RTDB.getString(&Proyecto1, "/T1")) {
-  //   if (Proyecto1.dataType() == "string") {
-  //     sValue = Proyecto1.stringData();
-  //     int a = sValue.toInt();
-  //     if (a == 1) {
-  //       fanIsUsed = 2;
-  //       digitalWrite(FAN_PIN, HIGH);
-  //     } else {
-  //       fanIsUsed = 0;
-  //       digitalWrite(FAN_PIN, LOW);
-  //     }
-  //   }
-  // }
+  if (dataReceived == "") {
+    return;
+  } else if (dataReceived == "estadofan 0") {
+    fanIsUsed = 0;
+    digitalWrite(FAN_PIN, LOW);
+  } else if (dataReceived == "estadofan 1") {
+    fanIsUsed = 2;
+    digitalWrite(FAN_PIN, HIGH);
+  } else if (dataReceived == "estadofan 2") {
+    fanIsUsed = 2;
+    digitalWrite(FAN_PIN, HIGH);
+  }
 }
 
 void monitorTemperature(float temperature) {
-  // Si el FAN está apagado, detectar cambios
-  if (digitalRead(FAN_PIN) == LOW) {
-    switchTemperatureFan();
-    return;
-  }
-
-  // Si la temperatura está arriba del máximo y el FAN está activo: Continuar
-  if (temperature >= MAX_TEMPERATURE && digitalRead(FAN_PIN) == HIGH){
-    return;
-  }
-  
-  // Si la temperatura está debajo del máximo y el FAN está activo: Apagar FAN
-  if (temperature < MAX_TEMPERATURE && digitalRead(FAN_PIN) == HIGH && fanIsUsed == 2){
-    sendAlert(TEMP_ALERT_1);
+  // Si el FAN está apagado o siendo utilizado por esta herramienta, detectar cambios
+  if (digitalRead(FAN_PIN) == LOW or (digitalRead(FAN_PIN) == HIGH && fanIsUsed == 2)) {
     switchTemperatureFan();
     return;
   }
 }
 
+void rotateServoMotor(int angle) {
+  if (angle == 0) {
+    return;
+  } else if (angle > 0) {
+    for (int pos = 0; pos <= angle; pos += 1) {
+      servoMotor.write(pos);
+      delay(15);
+    }
+  } else if (angle < 0) {
+    for (int position = 180; position >= angle; position -= 1) {
+      servoMotor.write(position);
+      delay(15);
+    }
+  }
+}
+
+void switchActuator() {
+  if (dataReceived == "") {
+    return;
+  } else if (dataReceived == "estadoactuador 0") {
+    Serial1.println(">> Cerrando puerta");
+    servoMotor.write(0);
+    delay(1000);
+  } else if (dataReceived == "estadoactuador 1") {
+    Serial1.println(">> Abriendo puerta");
+    servoMotor.write(30);
+    delay(1000);
+  }
+}
+
+void monitorActuator() {
+  switchActuator();
+}
+
+/**
+  Verifica si hay datos entrantes por la conexión serial.
+
+  @return Cadena de los datos entrantes, si no hay, cadena vacia.
+*/
+String checkDataInput() {
+  String dataReceived = "";
+
+  while (Serial.available() > 0) {
+    char character = Serial.read();
+
+    // Si se recibe un carácter de nueva línea, significa que la cadena ha terminado
+    if (character == '\n') {
+      break;
+    } else {
+      // Agrega el carácter a la cadena en construcción
+      dataReceived += character;
+    }
+  }
+
+  // Si se recibieron datos, se imprimen en el Monitor
+  if (dataReceived != "") {
+    Serial1.print(">> Datos recibidos -> ");
+    Serial1.println(dataReceived);
+  }
+
+  return dataReceived;
+}
+
+
 void loop() {
+  dataReceived = checkDataInput();
+
   // Leer datos de los sensores
   generatePullTrigger();
   long time = pulseIn(PIN_ECHO, HIGH);
@@ -270,36 +345,23 @@ void loop() {
   float air = analogRead(MQ135_PIN);
   float light = analogRead(LDR_PIN);
 
-  // Imprimir datos de los sensores
+  // Imprimir datos de los sensores en el monitor.
   printSensorValues(distance, temperature, humidity, air, light);
-  
-  while (Serial.available() > 0) {
-    char character = Serial.read(); // Lee un carácter
 
-    // Si se recibe un carácter de nueva línea, significa que la cadena ha terminado
-    if (character == '\n') {
-      // Haz algo con la cadena recibida, por ejemplo, imprimir en el puerto serie
-      Serial1.print("\nCadena recibida: ");
-      Serial1.println(dataReceived);
-
-      // Limpia la variable para recibir la próxima cadena
-      dataReceived = "";
-    } else {
-      // Agrega el carácter a la cadena en construcción
-      dataReceived += character;
-    }
-  }
-
+  // Enviar los datos de los sensores.
   sendSensorValues(distance, temperature, humidity, air, light);
 
-  // Monitor de luz
-  // monitorLight(distance);
+  // Monitor de luz (TEST)
+  monitorLight(distance);
 
-  // Monitor de calidad de aire
-  // monitorAirQuality(air);
+  // Monitor de calidad de aire (TEST)
+  monitorAirQuality(air);
 
-  // Monitor de temperatura
-  // monitorTemperature(temperature);
+  // Monitor de temperatura (TEST)
+  monitorTemperature(temperature);
 
-  delay(1000);
+  // Monitor de Servo (TEST)
+  monitorActuator();
+
+  delay(2500);
 }

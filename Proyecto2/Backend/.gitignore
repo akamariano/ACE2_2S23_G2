@@ -1,0 +1,31 @@
+# Dependencias instaladas con npm o yarn
+/node_modules
+
+# Archivos generados automáticamente
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Directorios específicos
+/dist
+/build
+/.next
+/.nuxt
+
+# Archivos de configuración local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Dependencias específicas de tu entorno de desarrollo
+.vscode
+.idea
+
+# Otros archivos y carpetas generados localmente
+.DS_Store
+Thumbs.db
+
+# Carpeta de archivos temporales
+.tmp

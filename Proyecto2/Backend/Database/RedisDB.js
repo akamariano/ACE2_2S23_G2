@@ -1,4 +1,5 @@
 const redis = require("redis");
+const chalk = require('chalk');
 
 const redisClient = redis.createClient({
     password: '8EFmRwb0CzBa8yuiMLBnHlgIOjpv9MDs',
@@ -15,7 +16,7 @@ redisClient.on("error", (error) => {
 redisClient.connect();
 
 redisClient.on("connect", () => {
-    console.log("Redis - Connected");
+    console.log(chalk.bold.green("Redis - Connected"));
 });
 
 module.exports = {

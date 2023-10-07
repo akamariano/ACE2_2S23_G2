@@ -1,12 +1,14 @@
 # Dependencies
 - npm install mqtt
 - npm install jsonschema@1.2.6 mosca
-- npm install express
 - npm install serialport
-- npm install axios
 - npm install redis
+- npm install chalk
 
-# Execute
+# Execute (Main)
+- `node ./Main.js`
+
+# Execute (Si el Main no funciona)
 - `node ./MQTT/Broker.js`
-- `node ./API.js`
+- `node ./MQTT/ClientArduino.js`
 - `node ./MQTT/ClientDB.js`
