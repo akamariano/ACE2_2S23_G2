@@ -28,11 +28,11 @@ clientDB.on("connect", () => {
 clientDB.on("message", async (topic, data) => {
     console.log(`ClientDB - Received message on ${topic}: ${data}`);
 
-    // Guardar el dato en Redis
-    await redisClient.set(topic, data);
+    const timestamp = new Date().getTime();
 
-    // Guardar el dato en el historial
-    await redisClient.rPush(topic + "_historial", data)
+    // Guardar el dato en Redis
+    await redisClient.ts.add(topic, timestamp, data);
+
 });
 
 // Error.
