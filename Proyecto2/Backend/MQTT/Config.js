@@ -1,6 +1,6 @@
 
-const PORT = 9000;
-const ADDRESS = `0.0.0.0:9000`
+const PORT = 1883;
+const ADDRESS = `broker.hivemq.com:1883`
 
 module.exports = {
     PORT,
