@@ -44,9 +44,9 @@ port.on("error", (error) => {
 // ---------------------- MQTT ----------------------
 
 const topicsClientArduino = [
-    "estadoactuador",
-    "estadoluz",
-    "estadofan",
+    "arqui2_g2_actuador",
+    "arqui2_g2_luz",
+    "arqui2_g2_fan",
 ];
 
 const clientArduino = mqtt.connect(`mqtt://${ADDRESS}`);

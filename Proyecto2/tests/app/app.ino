@@ -27,7 +27,7 @@ String dataReceived = "";
 void setup() {
   // Inicia comunicacion serial
   Serial.begin(9600);
-  //Serial1.begin(9600);
+  Serial1.begin(9600);
 
   // Inicialización: Sensor DHT11
   dht.begin();
@@ -73,17 +73,17 @@ bool thereIsPerson(long distance) {
 }
 
 void printSensorValues(long distance, float temperature, float humidity, float air, float light) {
-  //Serial1.println("--------------");
-  //Serial1.print("Distancia (cm): ");
-  //Serial1.println(distance);
-  //Serial1.print("Temperatura (c): ");
-  //Serial1.println(temperature);
-  //Serial1.print("Humedad (%): ");
-  //Serial1.println(humidity);
-  //Serial1.print("Aire (ppm): ");
-  //Serial1.println(air);
-  //Serial1.print("Luz (Lum): ");
-  //Serial1.println(light);
+  Serial1.println("--------------");
+  Serial1.print("Distancia (cm): ");
+  Serial1.println(distance);
+  Serial1.print("Temperatura (c): ");
+  Serial1.println(temperature);
+  Serial1.print("Humedad (%): ");
+  Serial1.println(humidity);
+  Serial1.print("Aire (ppm): ");
+  Serial1.println(air);
+  Serial1.print("Luz (Lum): ");
+  Serial1.println(light);
 }
 
 void sendSensorValues(long distance, float temperature, float humidity, float air, float light) {
@@ -185,9 +185,9 @@ void monitorAirQuality(float airQuality) {
 void switchLight() {
   if (dataReceived == "") {
     return;
-  } else if (dataReceived == "arqui2_g2_luz 0") {
+  } else if (dataReceived == "estadoluz 0") {
     digitalWrite(LED_PIN, LOW);
-  } else if (dataReceived == "arqui2_g2_luz 1") {
+  } else if (dataReceived == "estadoluz 1") {
     digitalWrite(LED_PIN, HIGH);
   }
 }
@@ -249,13 +249,13 @@ void monitorLight(long distance) {
 void switchTemperatureFan() {
   if (dataReceived == "") {
     return;
-  } else if (dataReceived == "arqui2_g2_fan 0") {
+  } else if (dataReceived == "estadofan 0") {
     fanIsUsed = 0;
     digitalWrite(FAN_PIN, LOW);
-  } else if (dataReceived == "arqui2_g2_fan 1") {
+  } else if (dataReceived == "estadofan 1") {
     fanIsUsed = 2;
     digitalWrite(FAN_PIN, HIGH);
-  } else if (dataReceived == "arqui2_g2_fan 2") {
+  } else if (dataReceived == "estadofan 2") {
     fanIsUsed = 2;
     digitalWrite(FAN_PIN, HIGH);
   }
@@ -288,12 +288,12 @@ void rotateServoMotor(int angle) {
 void switchActuator() {
   if (dataReceived == "") {
     return;
-  } else if (dataReceived == "arqui2_g2_actuador 0") {
-    //Serial1.println(">> Cerrando puerta");
+  } else if (dataReceived == "estadoactuador 0") {
+    Serial1.println(">> Cerrando puerta");
     servoMotor.write(0);
     delay(1000);
-  } else if (dataReceived == "arqui2_g2_actuador 1") {
-    //Serial1.println(">> Abriendo puerta");
+  } else if (dataReceived == "estadoactuador 1") {
+    Serial1.println(">> Abriendo puerta");
     servoMotor.write(30);
     delay(1000);
   }
@@ -325,8 +325,8 @@ String checkDataInput() {
 
   // Si se recibieron datos, se imprimen en el Monitor
   if (dataReceived != "") {
-    //Serial1.print(">> Datos recibidos -> ");
-    //Serial1.println(dataReceived);
+    Serial1.print(">> Datos recibidos -> ");
+    Serial1.println(dataReceived);
   }
 
   return dataReceived;
@@ -363,5 +363,5 @@ void loop() {
   // Monitor de Servo (TEST)
   monitorActuator();
 
-  delay(10000);
+  delay(2500);
 }
