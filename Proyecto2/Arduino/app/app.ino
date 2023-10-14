@@ -87,15 +87,15 @@ void printSensorValues(long distance, float temperature, float humidity, float a
 }
 
 void sendSensorValues(long distance, float temperature, float humidity, float air, float light) {
-  Serial.print("Distancia ");
+  Serial.print("arqui2_g2_distancia ");
   Serial.println(distance);
-  Serial.print("Temperatura ");
+  Serial.print("arqui2_g2_temperatura ");
   Serial.println(temperature);
-  Serial.print("Humedad ");
+  Serial.print("arqui2_g2_humedad ");
   Serial.println(humidity);
-  Serial.print("Aire ");
+  Serial.print("arqui2_g2_aire ");
   Serial.println(air);
-  Serial.print("Luz ");
+  Serial.print("arqui2_g2_luz ");
   Serial.println(light);
 }
 
