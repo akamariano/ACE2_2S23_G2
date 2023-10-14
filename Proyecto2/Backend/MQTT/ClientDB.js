@@ -5,11 +5,11 @@ const { redisClient } = require("../Database/RedisDB");
 
 // ---------------------- SUBSCRIBER ----------------------
 const topicsClientDB = [
-    "distancia",
-    "temperatura",
-    "humedad",
-    "aire",
-    "luz"
+    "arqui2_g2_distancia",
+    "arqui2_g2_temperatura",
+    "arqui2_g2_humedad",
+    "arqui2_g2_aire",
+    "arqui2_g2_luz"
 ];
 
 const clientDB = mqtt.connect(`mqtt://${ADDRESS}`);
@@ -27,10 +27,11 @@ clientDB.on("connect", () => {
 // Al recibir un mensaje.
 clientDB.on("message", async (topic, data) => {
     console.log(`ClientDB - Received message on ${topic}: ${data}`);
-
+    
     const timestamp = new Date().getTime();
-
+    
     // Guardar el dato en Redis
+    topic = topic.split("_")[2];
     await redisClient.ts.add(topic, timestamp, data);
 
 });
