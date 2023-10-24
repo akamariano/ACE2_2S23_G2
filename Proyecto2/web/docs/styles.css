@@ -1,0 +1,74 @@
+body {
+    background-color: #65a6f0;
+    font-family: 'Helvetica', cursive;
+    /* Fuente personalizada */
+}
+
+.dashboard-title {
+    background-color: yellow;
+    padding: 30px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.flashcard {
+    background-color: white;
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: transform 0.3s ease;
+    font-family: 'Helvetica', sans-serif;
+}
+
+.flashcard:hover {
+    transform: scale(1.1);
+}
+
+.flashcard img {
+    max-width: 100px;
+    height: auto;
+}
+
+.flashcard-button {
+    margin-top: 20px;
+}
+
+.vertical-cards {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    font-family: 'Helvetica', cursive;
+    font-size: 24px;
+    transform: scale(1.1);
+}
+
+.vertical-cards .flashcard-button {
+    margin-top: 20px;
+}
+
+.navbar {
+    background-color: #76f065;
+    /* Color verde */
+}
+
+.navbar-brand {
+    font-size: 24px;
+    /* Tamaño de fuente más grande */
+    font-weight: bold;
+    /* Texto en negrita */
+}
+
+.nav-link {
+    font-size: 20px;
+    /* Tamaño de fuente para las opciones */
+}
+
+.red {
+    background-color: red !important;
+    border-color: red !important;
+    color: white !important;
+}

@@ -103,7 +103,7 @@ void sendSensorValues(long distance, float temperature, float humidity, float ai
   Envia una alerta a través de conexión serial.
 */
 void sendAlert(String keyAlert) {
-  Serial.print("alerta ");
+  Serial.print("arqui2_g2_luz_alerta ");
   Serial.println(keyAlert);
 }
 
@@ -185,16 +185,16 @@ void monitorAirQuality(float airQuality) {
 void switchLight() {
   if (dataReceived == "") {
     return;
-  } else if (dataReceived == "arqui2_g2_luz 0") {
+  } else if (dataReceived == "arqui2_g2_led 0") {
     digitalWrite(LED_PIN, LOW);
-  } else if (dataReceived == "arqui2_g2_luz 1") {
+  } else if (dataReceived == "arqui2_g2_led 1") {
     digitalWrite(LED_PIN, HIGH);
   }
 }
 
 void monitorLight(long distance) {
-  
-  
+
+
   // Verificar si hay alguna persona en la habitacion
   if (thereIsPerson(distance)) {
     // Reiniciar temporizador y el ciclo actual a 1.

@@ -45,7 +45,7 @@ port.on("error", (error) => {
 
 const topicsClientArduino = [
     "arqui2_g2_actuador",
-    "arqui2_g2_luz",
+    "arqui2_g2_led",
     "arqui2_g2_fan",
 ];
 

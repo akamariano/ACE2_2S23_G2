@@ -1,79 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #65a6f0;
-            font-family: 'Helvetica', cursive; /* Fuente personalizada */
-        }
-        .dashboard-title {
-            background-color: yellow;
-            padding: 30px;
-            text-align: center;
-            font-size: 30px; 
-        }
-        .flashcard {
-            background-color: white;
-            margin: 20px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            transition: transform 0.3s ease;
-            font-family: 'Helvetica', sans-serif;
-        }
-        .flashcard:hover {
-            transform: scale(1.1);
-        }
-        .flashcard img {
-            max-width: 100px;
-            height: auto;
-        }
-        .flashcard-button {
-            margin-top: 20px;
-        }
-    
-        .vertical-cards {
-            
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center; 
-            padding: 10px;
-            font-family: 'Helvetica', cursive; 
-            font-size: 24px; 
-            transform: scale(1.1); 
-        }
-        .vertical-cards .flashcard-button {
-            margin-top: 20px;
-        }
-        .navbar {
-            background-color: #76f065; /* Color verde */
-        }
-        .navbar-brand {
-            font-size: 24px; /* Tamaño de fuente más grande */
-            font-weight: bold; /* Texto en negrita */
-        }
-        .nav-link {
-            font-size: 20px; /* Tamaño de fuente para las opciones */
-        }
-        .red {
-    background-color: red !important;
-    border-color: red !important;
-    color: white !important;
-}
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.1.3/mqtt.js" integrity="sha512-CmoQwCipgWPJrLaCjV+r3J/QLo7WdLkGrxbCtYkDQXLs6615n94LyGAfjHHEicR9Xi+dSgKBjf5ZAzlqyJdI8Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light ">
         <a class="navbar-brand" href="#">Dashboard</a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="https://github.com/akamariano/ACE2_2S23_G2/blob/main/Practica2/README.md">Documentación</a>
+                    <a class="nav-link"
+                        href="https://github.com/akamariano/ACE2_2S23_G2/blob/main/Practica2/README.md">Documentación</a>
                 </li>
             </ul>
         </div>
@@ -82,54 +26,63 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="flashcard">
-                    <img src="https://creazilla-store.fra1.digitaloceanspaces.com/emojis/42985/thermometer-emoji-clipart-md.png" alt="Temperatura">
+                    <img src="https://creazilla-store.fra1.digitaloceanspaces.com/emojis/42985/thermometer-emoji-clipart-md.png"
+                        alt="Temperatura">
                     <h2>Temperatura</h2>
-                    <p>Grados: 25°C</p>
+                    <h3>(°C)</h3>
+                    <h4 id="temperature_value">25</h4>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="flashcard">
                     <img src="https://cdn-icons-png.flaticon.com/512/732/732436.png" alt="Iluminación">
                     <h2>Iluminación</h2>
-                    <p>Lúmenes: 500</p>
+                    <h3>(Lumenes)</h3>
+                    <h4 id="light_value">500</h4>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="flashcard">
-                    <img src="https://images.vexels.com/media/users/3/182485/isolated/preview/5b33710dbee30e6b343e512aeb4dbf1a-hombre-de-dibujos-animados-britanico-de-caracter.png" alt="Presencia Humana">
+                    <img src="https://images.vexels.com/media/users/3/182485/isolated/preview/5b33710dbee30e6b343e512aeb4dbf1a-hombre-de-dibujos-animados-britanico-de-caracter.png"
+                        alt="Presencia Humana">
                     <h2>Presencia Humana</h2>
-                    <p>Distancia: 2 metros</p>
+                    <h3>(Metros)</h3>
+                    <h4 id="distance_value">2</h4>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="flashcard">
                     <img src="https://cdn-icons-png.flaticon.com/512/5232/5232816.png" alt="Calidad del Aire">
                     <h2>Calidad del Aire</h2>
-                    <p>PPM: 30</p>
+                    <h3>(PPM)</h3>
+                    <h4 id="air_value">30</h4>
                 </div>
             </div>
-           
+
             <div class="col-md-6 vertical-cards">
                 <div class="flashcard">
                     <img src="https://cdn-icons-png.flaticon.com/512/732/732436.png" alt="Foco">
                     <h2>Foco</h2>
-                    <button class="btn btn-primary flashcard-button red">Encender</button>
+                    <button class="btn btn-primary flashcard-button green" id="power-on-btn">Encender</button>
+                    <button class="btn btn-primary flashcard-button red" id="power-off-btn">Apagar</button>
                 </div>
             </div>
             <div class="col-md-6 vertical-cards">
                 <div class="flashcard">
-                    <img src="https://creazilla-store.fra1.digitaloceanspaces.com/emojis/45188/bar-chart-emoji-clipart-xl.png" alt="Gráficas">
+                    <img src="https://creazilla-store.fra1.digitaloceanspaces.com/emojis/45188/bar-chart-emoji-clipart-xl.png"
+                        alt="Gráficas">
                     <h2>Gráficas</h2>
                     <button id="verGraficas" class="btn btn-success flashcard-button">Ver Gráficas</button>
                 </div>
             </div>
         </div>
     </div>
-    
+
 
     <footer class="bg-dark text-white text-center py-3">
         <p class="mb-0">Arquitectura de Computadoras y Ensambladores 2 2S2023</p>
     </footer>
     <script src="index.js"></script>
 </body>
+
 </html>
