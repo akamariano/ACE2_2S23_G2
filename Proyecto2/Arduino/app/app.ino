@@ -107,7 +107,7 @@ void sendSensorValues(long distance, float temperature, float humidity, float ai
   Envia una alerta a través de conexión serial.
 */
 void sendAlert(String keyAlert) {
-  Serial.print("arqui2_g2_luz_alerta ");
+  Serial.print("arqui2_g2_alerta ");
   Serial.println(keyAlert);
 }
 

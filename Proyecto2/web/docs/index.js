@@ -15,14 +15,14 @@ clientWeb.on("connect", () => {
     console.log("ClientWeb - Connected");
     for (const topic of topicsClientWeb) {
         clientWeb.subscribe(topic, () => {
-            console.log(`ClientDB - Subscribed to ${topic}`);
+            console.log(`ClientWeb - Subscribed to ${topic}`);
         });
     }
 });
 
 // Al recibir un mensaje.
 clientWeb.on("message", async (topic, data) => {
-    console.log(`ClientDB - Received message on ${topic}: ${data}`);
+    console.log(`ClientWeb - Received message on ${topic}: ${data}`);
     switch (topic) {
         case 'arqui2_g2_distancia':
             document.getElementById("distance_value").innerHTML = data;
@@ -58,9 +58,9 @@ clientWeb.on("message", async (topic, data) => {
 function publishWeb(topic, message) {
     clientWeb.publish(topic, message, (error) => {
         if (!error) {
-            console.log(`ClientArduino - Publish:  ${topic} -> ${message}`);
+            console.log(`ClientWeb - Publish:  ${topic} -> ${message}`);
         } else {
-            console.error("ClientArduino - Error: ", error);
+            console.error("ClientWeb - Error: ", error);
         }
     });
 }
