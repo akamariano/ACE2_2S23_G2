@@ -24,13 +24,13 @@
 #define GATE_PIN 9
 
 // PIN DEL LED
-#define LED_PIN 2 
+#define LED_PIN 3 
 
 // PIN DEL SERVO
 #define SERVO_PIN 8
 
 // UMBRALES
-#define MIN_DISTANCE 100
+#define MIN_DISTANCE 30
 #define MAX_TEMPERATURE 30
 #define MIN_CO2 300
 
