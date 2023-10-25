@@ -27,7 +27,7 @@
 #define LED_PIN 2 
 
 // PIN DEL SERVO
-#define SERVO_PIN 8
+#define SERVO_PIN 6
 
 // UMBRALES
 #define MIN_DISTANCE 100

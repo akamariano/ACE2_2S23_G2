@@ -1,7 +1,7 @@
-#include <Arduino.h>
 #include "definitions.h"
-#include <Servo.h>
 
+#include <Arduino.h>
+#include <Servo.h>
 
 DHT dht(DHT_PIN, DHT_TYPE);
 Servo servoMotor;
@@ -27,7 +27,6 @@ String dataReceived = "";
 void setup() {
   // Inicia comunicacion serial
   Serial.begin(9600);
-  //Serial1.begin(9600);
 
   // Inicialización: Sensor DHT11
   dht.begin();
@@ -50,8 +49,13 @@ void setup() {
   pinMode(FAN_PIN, OUTPUT);
   digitalWrite(FAN_PIN, LOW);
 
+  // Inicialización: Gate
+  pinMode(GATE_PIN, OUTPUT);
+  digitalWrite(GATE_PIN, LOW);
+
   // Inicializacion: Servo
   servoMotor.attach(SERVO_PIN);
+  servoMotor.write(140);   // Inicializa el servo en grados iniciales
 }
 
 void generatePullTrigger() {
@@ -255,9 +259,11 @@ void switchTemperatureFan() {
   } else if (dataReceived == "arqui2_g2_fan 1") {
     fanIsUsed = 2;
     digitalWrite(FAN_PIN, HIGH);
+    analogWrite(GATE_PIN, 100);
   } else if (dataReceived == "arqui2_g2_fan 2") {
     fanIsUsed = 2;
     digitalWrite(FAN_PIN, HIGH);
+    analogWrite(GATE_PIN, 1000);
   }
 }
 
@@ -289,13 +295,17 @@ void switchActuator() {
   if (dataReceived == "") {
     return;
   } else if (dataReceived == "arqui2_g2_actuador 0") {
-    //Serial1.println(">> Cerrando puerta");
-    servoMotor.write(0);
-    delay(1000);
+    // Mueve el servo de 0 a 130 grados
+    for (int pos = 0; pos <= 130; pos += 1) {
+      servoMotor.write(pos);
+      delay(15);  // Pequeño retardo para suavizar el movimiento
+    }
   } else if (dataReceived == "arqui2_g2_actuador 1") {
-    //Serial1.println(">> Abriendo puerta");
-    servoMotor.write(30);
-    delay(1000);
+    // Mueve el servo de 130 a 0 grados
+    for (int pos = 130; pos >= 0; pos -= 1) {
+      servoMotor.write(pos);
+      delay(15);  // Pequeño retardo para suavizar el movimiento
+    }
   }
 }
 

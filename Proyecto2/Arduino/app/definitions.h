@@ -32,7 +32,7 @@
 // UMBRALES
 #define MIN_DISTANCE 100
 #define MAX_TEMPERATURE 30
-#define MIN_CO2 400
+#define MIN_CO2 300
 
 // CICLOS
 #define CYCLE_ONE 1
