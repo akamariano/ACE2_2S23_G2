@@ -134,7 +134,7 @@ int updateTimer(int timer) {
   @param airQuality Valor actual de la calidad del aire.
 */
 void monitorAirQuality(float airQuality) {
-  if (airQuality > MIN_CO2) {
+  if (airQuality > MIN_CO2 || airCurrentCycle != CYCLE_ONE) {
     // Si el aire está contaminado, se actualiza el temporizador.
     timerAir = updateTimer(timerAir);
     switch (airCurrentCycle) {
@@ -148,10 +148,11 @@ void monitorAirQuality(float airQuality) {
       case CYCLE_TWO:
         if (timerAir >= TIMER_LIMIT_AIR) {
           // Iniciar limpieza de aire
-          if (fanIsUsed == 0) {
+          if (fanIsUsed == 0){
             fanIsUsed = 1;
             digitalWrite(FAN_PIN, HIGH);
-          }
+
+          }        
           // Reiniciar temporizador y pasar al siguiente ciclo
           timerAir = 0;
           airCurrentCycle = CYCLE_THREE;
@@ -160,11 +161,11 @@ void monitorAirQuality(float airQuality) {
       case CYCLE_THREE:
         if (timerAir >= TIMER_LIMIT_FAN) {
           // Finalizar limpieza de aire
-          if (fanIsUsed == 1) {
+          if(fanIsUsed == 1){
             fanIsUsed = 0;
             digitalWrite(FAN_PIN, LOW);
           }
-
+          
           // Reiniciar temporizador y reiniciar ciclado
           timerAir = 0;
           airCurrentCycle = CYCLE_ONE;

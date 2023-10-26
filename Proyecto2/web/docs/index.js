@@ -36,7 +36,11 @@ clientWeb.on("message", async (topic, data) => {
         case 'arqui2_g2_luz':
             document.getElementById("light_value").innerHTML = data;
             break;
-        case 'arqui2_g2_alerta':
+        case 'arqui2_g2_alerta':                        
+            data = new TextDecoder().decode(data);
+            data = data.trim() 
+            console.log("Alerta: ", data);
+
             let content = "";
             if (data == "ad") {
                 content = "¡Alerta! Aire en condiciones deficientes.";
